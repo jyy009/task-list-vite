@@ -8,15 +8,31 @@ export const TaskProvider = ({ children }) => {
     title: "",
     description: "",
     due: "",
-    priority: "",
+    priority: false,
     project: "",
-    id: crypto.randomUUID()
   });
 
   const addTask = (newTask) => {
-    setTasklist(newTask)
-  }
-  
+    setTasklist((prev) => {
+      const updatedTasklist = [
+        ...prev,
+        { ...newTask, id: crypto.randomUUID() },
+      ];
+      console.log("updated tasklist:", updatedTasklist);
+      return updatedTasklist;
+    });
+  };
+
+  const clearForm = () => {
+    setFormData({
+      title: "",
+      description: "",
+      due: "",
+      priority: false,
+      project: "",
+    });
+  };
+
   return (
     <TaskContext.Provider
       value={{
@@ -25,6 +41,7 @@ export const TaskProvider = ({ children }) => {
         tasklist,
         setTasklist,
         addTask,
+        clearForm,
       }}
     >
       {children}
