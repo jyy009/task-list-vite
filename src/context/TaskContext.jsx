@@ -12,6 +12,8 @@ export const TaskProvider = ({ children }) => {
     project: "",
   });
 
+  const [projectList, setProjectList] = useState([]);
+
   const addTask = (newTask) => {
     setTasklist((prev) => {
       const updatedTasklist = [
@@ -23,6 +25,14 @@ export const TaskProvider = ({ children }) => {
     });
   };
 
+  const addProjectToList = (newProj) => {
+    setProjectList((prev) => {
+      const updatedList = [...prev, newProj]
+      console.log("updated proj list:", updatedList);
+      return updatedList
+    })
+  }
+
   const clearForm = () => {
     setFormData({
       title: "",
@@ -33,6 +43,13 @@ export const TaskProvider = ({ children }) => {
     });
   };
 
+ 
+  const deleteTask = (id) => {
+    setTasklist((prev) => {
+      return prev.filter(item => item.id !== id)
+    })
+  }
+
   return (
     <TaskContext.Provider
       value={{
@@ -42,6 +59,9 @@ export const TaskProvider = ({ children }) => {
         setTasklist,
         addTask,
         clearForm,
+        deleteTask,
+        projectList,
+        addProjectToList,
       }}
     >
       {children}

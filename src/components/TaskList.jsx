@@ -2,7 +2,7 @@ import React from "react";
 import { useTask } from "../context/TaskContext";
 
 export const TaskList = () => {
-  const { tasklist } = useTask();
+  const { tasklist, deleteTask } = useTask();
 
   return (
     <>
@@ -12,6 +12,7 @@ export const TaskList = () => {
           <p>{task.description}</p>
           <p>{task.due}</p>
           <p>{task.priority ? "!" : ""}</p>
+          <button onClick={() => deleteTask(task.id)}>Delete</button>
         </div>
       ))}
     </>
