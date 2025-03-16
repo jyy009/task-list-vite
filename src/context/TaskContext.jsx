@@ -50,6 +50,12 @@ export const TaskProvider = ({ children }) => {
     })
   }
 
+  // const displayTasksByProject = (arr) => {
+  //   arr.filter((item) => {
+  //     item.project 
+  //   })
+  // }
+
   return (
     <TaskContext.Provider
       value={{
@@ -62,6 +68,7 @@ export const TaskProvider = ({ children }) => {
         deleteTask,
         projectList,
         addProjectToList,
+
       }}
     >
       {children}

@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useTask } from "../context/TaskContext";
+import { ProjectList } from "../components/ProjectList";
 
 export const NewProjectForm = () => {
-  const { setProjectList, addProjectToList } = useTask();
+  const { projectList, addProjectToList } = useTask();
 
   const [projectData, setProjectData] = useState("");
 
@@ -13,9 +14,11 @@ export const NewProjectForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addProjectToList(projectData)
+    addProjectToList(projectData);
     setProjectData("");
   };
+
+  
 
   return (
     <>
@@ -33,6 +36,10 @@ export const NewProjectForm = () => {
         />
         <button type="submit">Add</button>
       </form>
+
+      {projectList.length > 0 ? (
+        <ProjectList />
+      ) : null}
     </>
   );
 };

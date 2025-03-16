@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useTask } from "../context/TaskContext";
 
 export const NewTaskForm = () => {
-  const { formData, setFormData, tasklist, setTasklist, addTask, clearForm } =
+  const { formData, setFormData, projectList,tasklist, setTasklist, addTask, clearForm } =
     useTask();
 
   const [isChecked, setIsChecked] = useState(false);
@@ -26,7 +26,6 @@ export const NewTaskForm = () => {
 
   return (
     <>
-      
       <form id="task-form" onSubmit={handleSubmit}>
         <label htmlFor="task">Title</label>
         <input
@@ -77,6 +76,13 @@ export const NewTaskForm = () => {
         >
           <option disabled>Select a project</option>
           <option>Test project</option>
+          {projectList.map((proj, index) => {
+            return (
+              <option key={index} value={proj}>
+                {proj}
+              </option>
+            );
+          })}
         </select>
         <button type="submit">Add</button>
       </form>
