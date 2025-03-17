@@ -27,11 +27,11 @@ export const TaskProvider = ({ children }) => {
 
   const addProjectToList = (newProj) => {
     setProjectList((prev) => {
-      const updatedList = [...prev, newProj]
+      const updatedList = [...prev, newProj];
       console.log("updated proj list:", updatedList);
-      return updatedList
-    })
-  }
+      return updatedList;
+    });
+  };
 
   const clearForm = () => {
     setFormData({
@@ -43,18 +43,14 @@ export const TaskProvider = ({ children }) => {
     });
   };
 
- 
   const deleteTask = (id) => {
     setTasklist((prev) => {
-      return prev.filter(item => item.id !== id)
-    })
-  }
+      const updatedList = prev.filter((item) => item.id !== id);
+      console.log(updatedList);
+      return updatedList;
+    });
+  };
 
-  // const displayTasksByProject = (arr) => {
-  //   arr.filter((item) => {
-  //     item.project 
-  //   })
-  // }
 
   return (
     <TaskContext.Provider
@@ -68,7 +64,6 @@ export const TaskProvider = ({ children }) => {
         deleteTask,
         projectList,
         addProjectToList,
-
       }}
     >
       {children}

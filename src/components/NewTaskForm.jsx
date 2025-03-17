@@ -2,14 +2,11 @@ import React, { useState } from "react";
 import { useTask } from "../context/TaskContext";
 
 export const NewTaskForm = () => {
-  const { formData, setFormData, projectList,tasklist, setTasklist, addTask, clearForm } =
+  const { formData, setFormData, projectList, addTask, clearForm } =
     useTask();
-
-  const [isChecked, setIsChecked] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value, checked, type } = e.target;
-    setIsChecked(checked);
     setFormData({
       ...formData,
       [name]: type === "checkbox" ? checked : value,
@@ -19,7 +16,6 @@ export const NewTaskForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     addTask(formData);
-    setIsChecked(false);
     clearForm();
     console.log("form data after submit:", formData);
   };
@@ -39,7 +35,7 @@ export const NewTaskForm = () => {
 
         <label htmlFor="desription">Notes</label>
         <input
-          id="desription"
+          id="description"
           className="description-input"
           type="text"
           name="description"
@@ -63,7 +59,7 @@ export const NewTaskForm = () => {
           className="priority-input"
           type="checkbox"
           name="priority"
-          checked={isChecked}
+          checked={formData.priority}
           onChange={handleInputChange}
         />
 
@@ -74,8 +70,8 @@ export const NewTaskForm = () => {
           onChange={handleInputChange}
           value={formData.project}
         >
-          <option disabled>Select a project</option>
-          <option>Test project</option>
+          <option value="" disabled>Select a project</option>
+          <option value="test project">Test project</option>
           {projectList.map((proj, index) => {
             return (
               <option key={index} value={proj}>
