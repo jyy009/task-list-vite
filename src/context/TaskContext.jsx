@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 const TaskContext = createContext();
 
@@ -11,6 +11,7 @@ export const TaskProvider = ({ children }) => {
     priority: false,
     project: "",
   });
+  // const [isDone, setIsDone] = useState(false);
 
   const [projectList, setProjectList] = useState([]);
 
@@ -18,12 +19,22 @@ export const TaskProvider = ({ children }) => {
     setTasklist((prev) => {
       const updatedTasklist = [
         ...prev,
-        { ...newTask, id: crypto.randomUUID() },
+        { ...newTask, id: crypto.randomUUID(), completed: false },
       ];
       console.log("updated tasklist:", updatedTasklist);
       return updatedTasklist;
     });
   };
+
+  const toggleTask = (id) => {
+    setTasklist((prev) => {
+      return prev.map((item) =>
+        item.id === id ? { ...item, completed: !item.completed } : item
+      );
+    });
+  };
+
+  
 
   const addProjectToList = (newProj) => {
     setProjectList((prev) => {
@@ -32,6 +43,10 @@ export const TaskProvider = ({ children }) => {
       return updatedList;
     });
   };
+
+  useEffect(() => {
+console.log("current tasklist:", tasklist)
+  } , [tasklist])
 
   const clearForm = () => {
     setFormData({
@@ -51,7 +66,6 @@ export const TaskProvider = ({ children }) => {
     });
   };
 
-
   return (
     <TaskContext.Provider
       value={{
@@ -64,6 +78,10 @@ export const TaskProvider = ({ children }) => {
         deleteTask,
         projectList,
         addProjectToList,
+        // isDone,
+        // setIsDone,
+        toggleTask,
+
       }}
     >
       {children}

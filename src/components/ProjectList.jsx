@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useTask } from "../context/TaskContext";
 
 export const ProjectList = () => {
@@ -13,21 +13,45 @@ export const ProjectList = () => {
 
     console.log("filtered task list:", newTasklist);
     setFilteredTasks(newTasklist);
-    console.log("filteredTasks", filteredTasks);
-
   };
 
+  const toggleTask = (id) => {
+    setFilteredTasks((prev) => {
+      return prev.map((item) =>
+        item.id === id ? { ...item, completed: !item.completed } : item
+      );
+    });
+  };
+
+  const deleteTask = (id) => {
+    setFilteredTasks((prev) => {
+      const updatedList = prev.filter((item) => item.id !== id);
+      console.log(updatedList);
+      return updatedList;
+    });
+  };
+
+  useEffect(() => {
+    console.log("filtered tasklist:", filteredTasks);
+  }, [filteredTasks]);
   return (
     <>
-      {projectList.map((proj, index) => (
-        <button key={index} onClick={handleButtonClick}>
+      {projectList.map((proj) => (
+        <button key={proj.id} onClick={handleButtonClick}>
           {proj}
         </button>
       ))}
 
       {filteredTasks.map((item) => (
         <div className="filteredTaskContainer" key={item.id}>
-          <p>{item.title}</p>
+          <input
+            id="completed"
+            className="completed-input"
+            type="checkbox"
+            checked={item.completed}
+            onChange={() => toggleTask(item.id)}
+          />
+          <label htmlFor="completed">{item.title}</label>
           <p>{item.description}</p>
           <p>{item.due}</p>
           <p>{item.priority ? "!" : ""}</p>
