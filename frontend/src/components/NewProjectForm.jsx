@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useTask } from "../context/TaskContext";
-import { ProjectList } from "../components/ProjectList";
+import { ProjectList } from "./ProjectList";
 
 export const NewProjectForm = () => {
   const { projectList, addProjectToList } = useTask();

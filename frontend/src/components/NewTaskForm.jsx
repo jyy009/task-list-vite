@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useTask } from "../context/TaskContext";
+import DatePicker from "react-datepicker";
 
 export const NewTaskForm = () => {
   const { formData, setFormData, projectList, addTask, clearForm } =
@@ -53,6 +54,12 @@ export const NewTaskForm = () => {
           value={formData.due}
         />
 
+        {/* <DatePicker
+          selected={formData.due}
+          onChange={handleInputChange}
+          dateFormat="MMMM d, yyyy"
+        /> */}
+
         <label htmlFor="priority">Priority</label>
         <input
           id="priority"
@@ -70,7 +77,9 @@ export const NewTaskForm = () => {
           onChange={handleInputChange}
           value={formData.project}
         >
-          <option value="" disabled>Select a project</option>
+          <option value="" disabled>
+            Select a project
+          </option>
           <option value="test project">Test project</option>
           {projectList.map((proj, index) => {
             return (

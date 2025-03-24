@@ -1,0 +1,16 @@
+###
+GET http://localhost:8080/tasks
+
+
+###
+PUT http://localhost:8080/tasks
+Content-Type: application/json
+
+
+{
+    "title": "walk dogs",
+    "description": "poop bags",
+  "priority": false,
+  "project": "home"
+}
+

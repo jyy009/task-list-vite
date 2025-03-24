@@ -1,4 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { format } from "date-fns";
+import DatePicker from "react-datepicker";
 
 const TaskContext = createContext();
 
@@ -7,7 +9,7 @@ export const TaskProvider = ({ children }) => {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
-    due: "",
+    due: new Date(),
     priority: false,
     project: "",
   });
@@ -34,8 +36,6 @@ export const TaskProvider = ({ children }) => {
     });
   };
 
-  
-
   const addProjectToList = (newProj) => {
     setProjectList((prev) => {
       const updatedList = [...prev, newProj];
@@ -45,8 +45,8 @@ export const TaskProvider = ({ children }) => {
   };
 
   useEffect(() => {
-console.log("current tasklist:", tasklist)
-  } , [tasklist])
+    console.log("current tasklist:", tasklist);
+  }, [tasklist]);
 
   const clearForm = () => {
     setFormData({
@@ -81,7 +81,6 @@ console.log("current tasklist:", tasklist)
         // isDone,
         // setIsDone,
         toggleTask,
-
       }}
     >
       {children}
