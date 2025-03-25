@@ -8,8 +8,8 @@ Content-Type: application/json
 
 
 {
-    "title": "walk dogs",
-    "description": "poop bags",
+    "title": "dinner",
+    "description": "with friend",
   "priority": false,
   "project": "home"
 }

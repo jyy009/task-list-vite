@@ -1,10 +1,9 @@
 import express from "express";
 import mongoose from "mongoose";
-import dotenv from "dotenv";
 const cors = require("cors");
-dotenv.config();
+require("dotenv").config({path: "../.env"});
 
-const mongoURL = process.env.MONGO_URL || "mongodb://localhost/tasks";
+const mongoURL = process.env.VITE_MONGO_URL || "mongodb://localhost/tasks";
 
 mongoose
   .connect(mongoURL)
@@ -18,7 +17,7 @@ const Task = mongoose.model("Task", {
   description: String,
   due: {
     type: Date,
-    default: () => new Date(),
+    default: new Date(),
   },
   priority: Boolean,
   project: String,
@@ -40,10 +39,16 @@ app.put("/tasks", async (req, res) => {
   console.log("Received request body:", req.body);
 
   try {
-    const { title, description, priority, project } = req.body;
-    console.log("Extracted data:", { title, description, priority, project });
+    const { title, description, due, priority, project } = req.body;
+    console.log("Extracted data:", {
+      title,
+      description,
+      due,
+      priority,
+      project,
+    });
 
-    const newTask = new Task({ title, description, priority, project });
+    const newTask = new Task({ title, description, due, priority, project });
     console.log("Created new Task instance:", newTask);
 
     await newTask.save();

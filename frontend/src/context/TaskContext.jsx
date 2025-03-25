@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { format } from "date-fns";
+import { format, parse } from "date-fns";
 import DatePicker from "react-datepicker";
 
 const TaskContext = createContext();
@@ -9,7 +9,7 @@ export const TaskProvider = ({ children }) => {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
-    due: new Date(),
+    due: format(new Date(), "yyyy-MM-dd"),
     priority: false,
     project: "",
   });

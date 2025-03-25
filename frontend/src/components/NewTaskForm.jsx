@@ -3,8 +3,9 @@ import { useTask } from "../context/TaskContext";
 import DatePicker from "react-datepicker";
 
 export const NewTaskForm = () => {
-  const { formData, setFormData, projectList, addTask, clearForm } =
-    useTask();
+  const backend_url = import.meta.env.VITE_MONGO_URL || "http://localhost:8080";
+
+  const { formData, setFormData, projectList, addTask, clearForm } = useTask();
 
   const handleInputChange = (e) => {
     const { name, value, checked, type } = e.target;
@@ -14,11 +15,30 @@ export const NewTaskForm = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    addTask(formData);
-    clearForm();
-    console.log("form data after submit:", formData);
+
+    try {
+      const response = await fetch(`${backend_url}/tasks`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      if (!response.ok) {
+        throw new Error("Error adding task");
+      }
+
+      const data = await response.json();
+      console.log("response from server:", data);
+      addTask(formData);
+    } catch (error) {
+      console.error("Error adding task:", error);
+    } finally {
+      clearForm();
+      console.log("form data after submit:", formData);
+    }
   };
 
   return (
@@ -53,12 +73,6 @@ export const NewTaskForm = () => {
           onChange={handleInputChange}
           value={formData.due}
         />
-
-        {/* <DatePicker
-          selected={formData.due}
-          onChange={handleInputChange}
-          dateFormat="MMMM d, yyyy"
-        /> */}
 
         <label htmlFor="priority">Priority</label>
         <input
