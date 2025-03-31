@@ -1,7 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 const cors = require("cors");
-require("dotenv").config({path: "../.env"});
+require("dotenv").config({ path: "../.env" });
 
 const mongoURL = process.env.VITE_MONGO_URL || "mongodb://localhost/tasks";
 
@@ -12,16 +12,16 @@ mongoose
 mongoose.Promise = global.Promise;
 
 //model
-const Task = mongoose.model("Task", {
-  title: String,
-  description: String,
-  due: {
-    type: Date,
-    default: new Date(),
-  },
-  priority: Boolean,
-  project: String,
-});
+// const Task = mongoose.model("Task", {
+//   title: String,
+//   description: String,
+//   due: {
+//     type: Date,
+//     default: new Date(),
+//   },
+//   priority: Boolean,
+//   project: String,
+// });
 
 const port = process.env.PORT || 8080;
 const app = express();
@@ -36,8 +36,6 @@ app.get("/tasks", async (req, res) => {
 });
 
 app.put("/tasks", async (req, res) => {
-  console.log("Received request body:", req.body);
-
   try {
     const { title, description, due, priority, project } = req.body;
     console.log("Extracted data:", {
@@ -56,6 +54,41 @@ app.put("/tasks", async (req, res) => {
   } catch (error) {
     console.error("Error creating task:", error);
     res.status(400).json({ error: error.message });
+  }
+});
+
+app.delete("/tasks/:taskid", async (req, res) => {
+  const { taskId } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(taskId)) {
+    return res.status(400).json({
+      success: false,
+      message: "Invalid task ID",
+    });
+  }
+
+  try {
+    const deletedTask = await Task.findByIdAndDelete({ _id: taskId });
+    console.log("deleted task:", deletedTask);
+
+    if (!deletedTask) {
+      return res.status(400).json({
+        success: false,
+        message: "Could not find task",
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        message: `Task with id: ${taskId} has been deleted`,
+      });
+    }
+  } catch (error) {
+    console.error("Error deleting task:", error);
+    res.status(500).json({
+      success: false,
+      response: error,
+      message: "Could not delete task",
+    });
   }
 });
 

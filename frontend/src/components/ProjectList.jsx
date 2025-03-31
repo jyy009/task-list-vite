@@ -36,8 +36,8 @@ export const ProjectList = () => {
   }, [filteredTasks]);
   return (
     <>
-      {projectList.map((proj) => (
-        <button key={proj.id} onClick={handleButtonClick}>
+      {projectList.map((proj, index) => (
+        <button key={index} onClick={handleButtonClick}>
           {proj}
         </button>
       ))}

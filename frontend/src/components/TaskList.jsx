@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useTask } from "../context/TaskContext";
 
 export const TaskList = () => {
-  const { tasklist, deleteTask, toggleTask, setIsDone } = useTask();
+  const { tasklist, deleteTask, toggleTask, fetchTasks } = useTask();
 
+  useEffect(() => {
+fetchTasks()
+  }, []);
+  
   return (
     <>
       {tasklist.map((task) => (

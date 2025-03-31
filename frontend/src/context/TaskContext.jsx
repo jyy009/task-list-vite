@@ -13,7 +13,9 @@ export const TaskProvider = ({ children }) => {
     priority: false,
     project: "",
   });
-  // const [isDone, setIsDone] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const backend_url = import.meta.env.VITE_MONGO_URL || "http://localhost:8080";
 
   const [projectList, setProjectList] = useState([]);
 
@@ -23,10 +25,31 @@ export const TaskProvider = ({ children }) => {
         ...prev,
         { ...newTask, id: crypto.randomUUID(), completed: false },
       ];
-      console.log("updated tasklist:", updatedTasklist);
       return updatedTasklist;
     });
   };
+
+  const fetchTasks = async () => {
+    setLoading(true)
+
+    try {
+      const response = await fetch(`${backend_url}/tasks`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      if (!response.ok) {
+        throw new Error("Failed to fetch tasks");
+      }
+      const data = await response.json();
+      setTasklist(data);
+    } catch (error) {
+      console.error("Error fetching tasks:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   const toggleTask = (id) => {
     setTasklist((prev) => {
@@ -78,8 +101,7 @@ export const TaskProvider = ({ children }) => {
         deleteTask,
         projectList,
         addProjectToList,
-        // isDone,
-        // setIsDone,
+       fetchTasks,
         toggleTask,
       }}
     >

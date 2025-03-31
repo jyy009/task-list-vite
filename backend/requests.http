@@ -14,3 +14,5 @@ Content-Type: application/json
   "project": "home"
 }
 
+###
+DELETE http://localhost:8080/tasks/67e98bd15c1b4f4b33af5fb5
