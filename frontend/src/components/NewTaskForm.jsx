@@ -20,7 +20,7 @@ export const NewTaskForm = () => {
 
     try {
       const response = await fetch(`${backend_url}/tasks`, {
-        method: "PUT",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
@@ -32,7 +32,7 @@ export const NewTaskForm = () => {
 
       const data = await response.json();
       console.log("response from server:", data);
-      addTask(formData);
+      addTask(data);
     } catch (error) {
       console.error("Error adding task:", error);
     } finally {

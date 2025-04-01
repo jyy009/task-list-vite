@@ -23,7 +23,7 @@ export const TaskProvider = ({ children }) => {
     setTasklist((prev) => {
       const updatedTasklist = [
         ...prev,
-        { ...newTask, id: crypto.randomUUID(), completed: false },
+        { ...newTask, completed: false },
       ];
       return updatedTasklist;
     });
@@ -83,7 +83,7 @@ export const TaskProvider = ({ children }) => {
 
   const deleteTask = (id) => {
     setTasklist((prev) => {
-      const updatedList = prev.filter((item) => item.id !== id);
+      const updatedList = prev.filter((item) => item._id !== id);
       console.log(updatedList);
       return updatedList;
     });

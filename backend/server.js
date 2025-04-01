@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 const cors = require("cors");
 require("dotenv").config({ path: "../.env" });
+import Task from "./models/Task";
 
 const mongoURL = process.env.VITE_MONGO_URL || "mongodb://localhost/tasks";
 
@@ -11,17 +12,6 @@ mongoose
   .catch((err) => console.error("Error connecting to MongoDB:", err));
 mongoose.Promise = global.Promise;
 
-//model
-// const Task = mongoose.model("Task", {
-//   title: String,
-//   description: String,
-//   due: {
-//     type: Date,
-//     default: new Date(),
-//   },
-//   priority: Boolean,
-//   project: String,
-// });
 
 const port = process.env.PORT || 8080;
 const app = express();
@@ -35,7 +25,7 @@ app.get("/tasks", async (req, res) => {
   res.json(allTasks);
 });
 
-app.put("/tasks", async (req, res) => {
+app.post("/tasks", async (req, res) => {
   try {
     const { title, description, due, priority, project } = req.body;
     console.log("Extracted data:", {
@@ -57,8 +47,9 @@ app.put("/tasks", async (req, res) => {
   }
 });
 
-app.delete("/tasks/:taskid", async (req, res) => {
+app.delete("/tasks/:taskId", async (req, res) => {
   const { taskId } = req.params;
+
 
   if (!mongoose.Types.ObjectId.isValid(taskId)) {
     return res.status(400).json({
