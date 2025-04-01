@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { format, parse } from "date-fns";
 import DatePicker from "react-datepicker";
 
+
 const TaskContext = createContext();
 
 export const TaskProvider = ({ children }) => {
@@ -54,7 +55,7 @@ export const TaskProvider = ({ children }) => {
   const toggleTask = (id) => {
     setTasklist((prev) => {
       return prev.map((item) =>
-        item.id === id ? { ...item, completed: !item.completed } : item
+        item._id === id ? { ...item, completed: !item.completed } : item
       );
     });
   };
@@ -81,13 +82,6 @@ export const TaskProvider = ({ children }) => {
     });
   };
 
-  const deleteTask = (id) => {
-    setTasklist((prev) => {
-      const updatedList = prev.filter((item) => item._id !== id);
-      console.log(updatedList);
-      return updatedList;
-    });
-  };
 
   return (
     <TaskContext.Provider
@@ -98,7 +92,6 @@ export const TaskProvider = ({ children }) => {
         setTasklist,
         addTask,
         clearForm,
-        deleteTask,
         projectList,
         addProjectToList,
        fetchTasks,

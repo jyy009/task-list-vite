@@ -3,16 +3,17 @@ GET http://localhost:8080/tasks
 
 
 ###
-PUT http://localhost:8080/tasks
+POST http://localhost:8080/tasks
 Content-Type: application/json
 
 
 {
-    "title": "dinner",
+    "title": "breakies",
     "description": "with friend",
   "priority": false,
-  "project": "home"
+  "project": "test project",
+  "due": null
 }
 
 ###
-DELETE http://localhost:8080/tasks/67ebb5fe6899e80075f04f55
+DELETE http://localhost:8080/tasks/67ebafaabba4719b091f7e0e

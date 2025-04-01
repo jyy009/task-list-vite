@@ -12,7 +12,6 @@ mongoose
   .catch((err) => console.error("Error connecting to MongoDB:", err));
 mongoose.Promise = global.Promise;
 
-
 const port = process.env.PORT || 8080;
 const app = express();
 
@@ -20,36 +19,37 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// get all the tasks
 app.get("/tasks", async (req, res) => {
-  const allTasks = await Task.find().exec();
-  res.json(allTasks);
-});
-
-app.post("/tasks", async (req, res) => {
   try {
-    const { title, description, due, priority, project } = req.body;
-    console.log("Extracted data:", {
-      title,
-      description,
-      due,
-      priority,
-      project,
-    });
-
-    const newTask = new Task({ title, description, due, priority, project });
-    console.log("Created new Task instance:", newTask);
-
-    await newTask.save();
-    res.json(newTask);
+    const allTasks = await Task.find().exec();
+    if (allTasks.length > 0) {
+      res.json(allTasks)
+    } else {
+      res.status(404).send("No tasks found");
+    }
   } catch (error) {
-    console.error("Error creating task:", error);
-    res.status(400).json({ error: error.message });
+    res.status(500).send(error.message);
   }
 });
 
+// post a task
+app.post("/tasks", async (req, res) => {
+  try {
+    const { title, description, due, priority, project } = req.body;
+
+    const newTask = new Task({ title, description, due, priority, project });
+
+    await newTask.save();
+    res.status(201).send("Task added to list");
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+});
+
+// delete a task
 app.delete("/tasks/:taskId", async (req, res) => {
   const { taskId } = req.params;
-
 
   if (!mongoose.Types.ObjectId.isValid(taskId)) {
     return res.status(400).json({
@@ -59,11 +59,11 @@ app.delete("/tasks/:taskId", async (req, res) => {
   }
 
   try {
-    const deletedTask = await Task.findByIdAndDelete({ _id: taskId });
+    const deletedTask = await Task.findByIdAndDelete(taskId);
     console.log("deleted task:", deletedTask);
 
     if (!deletedTask) {
-      return res.status(400).json({
+      return res.status(404).json({
         success: false,
         message: "Could not find task",
       });
