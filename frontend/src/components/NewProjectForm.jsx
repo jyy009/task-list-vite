@@ -1,24 +1,51 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { useTask } from "../context/TaskContext";
 import { ProjectList } from "./ProjectList";
 
 export const NewProjectForm = () => {
-  const { projectList, addProjectToList } = useTask();
+  const {
+    projectList,
 
-  const [projectData, setProjectData] = useState("");
+    projectData,
+    setProjectData,
+    addProjectToList,
+  } = useTask();
+
+  const backend_url =
+    import.meta.env.VITE_BACKEND_URL || "http://localhost:8080";
 
   const handleInputChange = (e) => {
-    const formValue = e.target.value;
-    setProjectData(formValue);
+    const value = e.target.value;
+    setProjectData(...projectData, { name: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    addProjectToList(projectData);
+
+    try {
+      const response = fetch(`${backend_url}/projects`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(projectData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Error adding project");
+      }
+
+      const data = await response.json();
+      console.log("response from server:", data);
+      addProjectToList(data);
+    } catch {}
+
     setProjectData("");
   };
 
-  
+  useEffect(() => {
+    console.log("current project list:", projectList);
+  }, [projectList]);
 
   return (
     <>
@@ -37,9 +64,7 @@ export const NewProjectForm = () => {
         <button type="submit">Add</button>
       </form>
 
-      {projectList.length > 0 ? (
-        <ProjectList />
-      ) : null}
+      {projectList.length > 0 ? <ProjectList /> : null}
     </>
   );
 };

@@ -1,7 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
 import Task from "../models/Task.js";
-console.log(Task);
 const router = express.Router();
 
 // get all the tasks

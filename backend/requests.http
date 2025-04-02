@@ -6,14 +6,25 @@ GET http://localhost:8080/tasks
 POST http://localhost:8080/tasks
 Content-Type: application/json
 
-
 {
-    "title": "swim",
-    "description": "with friend",
+  "title": "swim",
+  "description": "with friend",
   "priority": false,
   "project": "test project",
   "due": null
 }
 
 ###
-DELETE http://localhost:8080/tasks/67ebafaabba4719b091f7e0e
+DELETE http://localhost:8080/tasks/67ed562ef1201816b335af3e
+
+###
+GET http://localhost:8080/projects
+
+###
+POST http://localhost:8080/projects
+Content-Type: application/json
+
+
+{
+    "name": "school"
+}

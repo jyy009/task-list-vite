@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 
 import cors from "cors"
 import taskRoutes from "./routes/tasks.js";
-// import projectRoutes from "./routes/projects";
+import projectRoutes from "./routes/projects.js";
 require("dotenv").config({ path: "../.env" });
 // import "dotenv/config";
 
@@ -24,6 +24,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/tasks", taskRoutes);
+app.use("/projects", projectRoutes);
 
 
 

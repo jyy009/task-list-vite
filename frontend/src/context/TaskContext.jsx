@@ -15,10 +15,12 @@ export const TaskProvider = ({ children }) => {
     project: "",
   });
   const [loading, setLoading] = useState(false);
+  const [projectList, setProjectList] = useState([]);
+    const [projectData, setProjectData] = useState("");
+  
 
 const backend_url = import.meta.env.VITE_BACKEND_URL || "http://localhost:8080";
 
-  const [projectList, setProjectList] = useState([]);
 
   const addTask = (newTask) => {
     setTasklist((prev) => {
@@ -96,8 +98,11 @@ const backend_url = import.meta.env.VITE_BACKEND_URL || "http://localhost:8080";
         clearForm,
         projectList,
         addProjectToList,
-       fetchTasks,
+        fetchTasks,
         toggleTask,
+        loading,
+        projectData,
+        setProjectData,
       }}
     >
       {children}
