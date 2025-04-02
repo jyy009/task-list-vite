@@ -8,7 +8,7 @@ Content-Type: application/json
 
 
 {
-    "title": "breakies",
+    "title": "swim",
     "description": "with friend",
   "priority": false,
   "project": "test project",

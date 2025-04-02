@@ -4,7 +4,8 @@ import { useTask } from "../context/TaskContext";
 export const TaskList = () => {
   const { tasklist, toggleTask, fetchTasks, setTasklist } = useTask();
 
-  const backend_url = import.meta.env.VITE_MONGO_URL || "http://localhost:8080";
+  const backend_url =
+    import.meta.env.VITE_BACKEND_URL || "http://localhost:8080";
 
   useEffect(() => {
 fetchTasks()

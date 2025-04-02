@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { format, parse } from "date-fns";
-import DatePicker from "react-datepicker";
+import { format } from "date-fns";
+
 
 
 const TaskContext = createContext();
@@ -16,7 +16,7 @@ export const TaskProvider = ({ children }) => {
   });
   const [loading, setLoading] = useState(false);
 
-  const backend_url = import.meta.env.VITE_MONGO_URL || "http://localhost:8080";
+const backend_url = import.meta.env.VITE_BACKEND_URL || "http://localhost:8080";
 
   const [projectList, setProjectList] = useState([]);
 
@@ -34,12 +34,14 @@ export const TaskProvider = ({ children }) => {
     setLoading(true)
 
     try {
+      console.log("Fetching from:", `${backend_url}/tasks`);
       const response = await fetch(`${backend_url}/tasks`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
       })
+      console.log("Response status:", response.status); 
       if (!response.ok) {
         throw new Error("Failed to fetch tasks");
       }
