@@ -15,15 +15,18 @@ export const NewProjectForm = () => {
     import.meta.env.VITE_BACKEND_URL || "http://localhost:8080";
 
   const handleInputChange = (e) => {
-    const value = e.target.value;
-    setProjectData(...projectData, { name: value });
+    const { name, value } = e.target;
+    setProjectData({
+      ...projectData,
+      [name]: value,
+    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = fetch(`${backend_url}/projects`, {
+      const response = await fetch(`${backend_url}/projects`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -37,15 +40,20 @@ export const NewProjectForm = () => {
 
       const data = await response.json();
       console.log("response from server:", data);
+      console.log("Before adding project:", projectList);
       addProjectToList(data);
-    } catch {}
-
-    setProjectData("");
+    } catch (error) {
+      console.error("Error adding project:", error);
+    }
   };
 
   useEffect(() => {
     console.log("current project list:", projectList);
   }, [projectList]);
+
+  useEffect(() => {
+    console.log("current project data:", projectData);
+  }, [projectData]);
 
   return (
     <>
@@ -57,14 +65,14 @@ export const NewProjectForm = () => {
           id="project-input"
           className="input"
           type="text"
-          name="formProject"
+          name="name"
           onChange={handleInputChange}
-          value={projectData}
+          value={projectData.name}
         />
         <button type="submit">Add</button>
       </form>
 
-      {projectList.length > 0 ? <ProjectList /> : null}
+      {/* {projectList.length > 0 ? <ProjectList /> : null} */}
     </>
   );
 };

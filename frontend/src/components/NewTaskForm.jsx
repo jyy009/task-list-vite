@@ -96,10 +96,10 @@ export const NewTaskForm = () => {
             Select a project
           </option>
           <option value="test project">Test project</option>
-          {projectList.map((proj, index) => {
+          {projectList.map((proj) => {
             return (
-              <option key={index} value={proj}>
-                {proj}
+              <option key={proj._id} value={proj.name}>
+                {proj.name}
               </option>
             );
           })}

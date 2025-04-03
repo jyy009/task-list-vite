@@ -28,7 +28,7 @@ router.post("/", async (req, res) => {
     console.log("new task added to db:", newTask);
     res.status(201).json(newTask);
   } catch (error) {
-    res.status(400).json({ success: true, task: newTask });
+    res.status(400).json({ success: false, task: newTask });
   }
 });
 

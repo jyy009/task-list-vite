@@ -20,18 +20,21 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.post("/", async(req, res) => {
+router.post("/", async (req, res) => {
   try {
-    const proj = req.body
+    console.log(req.body);
+    const { name } = req.body;
 
-    const newProj = new Project(proj)
+    const newProj = new Project({ name });
 
-    await newProj.save()
-    console.log("new project added:", newProj)
-        res.status(201).json(newProj);
-
-  } catch {
-
+    await newProj.save();
+    console.log("new project added:", newProj);
+    res.status(201).json(newProj);
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
-})
+});
 export default router;

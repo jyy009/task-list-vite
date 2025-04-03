@@ -1,8 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { format } from "date-fns";
 
-
-
 const TaskContext = createContext();
 
 export const TaskProvider = ({ children }) => {
@@ -15,35 +13,38 @@ export const TaskProvider = ({ children }) => {
     project: "",
   });
   const [loading, setLoading] = useState(false);
+  const [projectsLoading, setProjectsLoading] = useState(false);
+
   const [projectList, setProjectList] = useState([]);
-    const [projectData, setProjectData] = useState("");
-  
+  const [projectData, setProjectData] = useState({
+    name: "",
+  });
 
-const backend_url = import.meta.env.VITE_BACKEND_URL || "http://localhost:8080";
-
+  const backend_url =
+    import.meta.env.VITE_BACKEND_URL || "http://localhost:8080";
 
   const addTask = (newTask) => {
     setTasklist((prev) => {
-      const updatedTasklist = [
-        ...prev,
-        { ...newTask, completed: false },
-      ];
+      const updatedTasklist = [...prev, { ...newTask, completed: false }];
       return updatedTasklist;
     });
   };
 
+  const addProjectToList = (newProj) => {
+    setProjectList((prev) => [...prev, newProj]);
+  };
+
   const fetchTasks = async () => {
-    setLoading(true)
+    setLoading(true);
 
     try {
-      console.log("Fetching from:", `${backend_url}/tasks`);
       const response = await fetch(`${backend_url}/tasks`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
-      })
-      console.log("Response status:", response.status); 
+      });
+      console.log("Response status:", response.status);
       if (!response.ok) {
         throw new Error("Failed to fetch tasks");
       }
@@ -54,21 +55,36 @@ const backend_url = import.meta.env.VITE_BACKEND_URL || "http://localhost:8080";
     } finally {
       setLoading(false);
     }
-  }
+  };
+
+  const fetchProjects = async () => {
+    setProjectsLoading(true);
+    try {
+      const response = await fetch(`${backend_url}/projects`, {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch projects");
+      }
+
+      const data = await response.json();
+      setProjectList(data);
+    } catch (error) {
+      console.error("Error fetching projects:", error);
+    } finally {
+      setProjectsLoading(false);
+    }
+  };
 
   const toggleTask = (id) => {
     setTasklist((prev) => {
       return prev.map((item) =>
         item._id === id ? { ...item, completed: !item.completed } : item
       );
-    });
-  };
-
-  const addProjectToList = (newProj) => {
-    setProjectList((prev) => {
-      const updatedList = [...prev, newProj];
-      console.log("updated proj list:", updatedList);
-      return updatedList;
     });
   };
 
@@ -86,7 +102,6 @@ const backend_url = import.meta.env.VITE_BACKEND_URL || "http://localhost:8080";
     });
   };
 
-
   return (
     <TaskContext.Provider
       value={{
@@ -103,6 +118,7 @@ const backend_url = import.meta.env.VITE_BACKEND_URL || "http://localhost:8080";
         loading,
         projectData,
         setProjectData,
+        fetchProjects,
       }}
     >
       {children}

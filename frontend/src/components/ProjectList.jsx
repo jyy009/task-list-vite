@@ -2,9 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useTask } from "../context/TaskContext";
 
 export const ProjectList = () => {
-  const { projectList, tasklist } = useTask();
+  const { projectList, tasklist, fetchProjects } = useTask();
   const [filteredTasks, setFilteredTasks] = useState([]);
 
+  useEffect(()=> {
+fetchProjects()
+  },[])
+  
   const handleButtonClick = (e) => {
     e.preventDefault();
     const value = e.target.textContent;
@@ -18,14 +22,14 @@ export const ProjectList = () => {
   const toggleTask = (id) => {
     setFilteredTasks((prev) => {
       return prev.map((item) =>
-        item.id === id ? { ...item, completed: !item.completed } : item
+        item._id === id ? { ...item, completed: !item.completed } : item
       );
     });
   };
 
   const deleteTask = (id) => {
     setFilteredTasks((prev) => {
-      const updatedList = prev.filter((item) => item.id !== id);
+      const updatedList = prev.filter((item) => item._id !== id);
       console.log(updatedList);
       return updatedList;
     });
@@ -34,28 +38,33 @@ export const ProjectList = () => {
   useEffect(() => {
     console.log("filtered tasklist:", filteredTasks);
   }, [filteredTasks]);
+  
+
+    useEffect(() => {
+      console.log("current project list:", projectList);
+    }, [projectList]);
   return (
     <>
-      {projectList.map((proj, index) => (
-        <button key={index} onClick={handleButtonClick}>
-          {proj}
+      {projectList.map((proj) => (
+        <button key={proj._id} onClick={handleButtonClick}>
+          {proj.name}
         </button>
       ))}
 
       {filteredTasks.map((item) => (
-        <div className="filteredTaskContainer" key={item.id}>
+        <div className="filteredTaskContainer" key={item._id}>
           <input
             id="completed"
             className="completed-input"
             type="checkbox"
             checked={item.completed}
-            onChange={() => toggleTask(item.id)}
+            onChange={() => toggleTask(item._id)}
           />
           <label htmlFor="completed">{item.title}</label>
           <p>{item.description}</p>
           <p>{item.due}</p>
           <p>{item.priority ? "!" : ""}</p>
-          <button onClick={() => deleteTask(item.id)}>Delete</button>
+          <button onClick={() => deleteTask(item._id)}>Delete</button>
         </div>
       ))}
     </>
