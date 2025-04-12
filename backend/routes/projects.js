@@ -20,6 +20,7 @@ router.get("/", async (req, res) => {
   }
 });
 
+// add a project
 router.post("/", async (req, res) => {
   try {
     console.log(req.body);
@@ -37,4 +38,40 @@ router.post("/", async (req, res) => {
     });
   }
 });
+
+// delete a project
+router.post("/:projectId", async (req, res) => {
+  const {projectId} = req.params
+
+  if (!mongoose.Types.ObjectId.isValid(projectId)) {
+    return res.status(400).json({
+      success: false,
+      message: "Invalid project ID",
+    });
+  }
+
+  try {
+    const deletedProject = await Project.findByIdAndDelete(projectId)
+    console.log("Deleted project:", deletedProject)
+
+    if (!deletedProject) {
+      return res.status(404).json({
+        success: false,
+        message: "Could not find project"
+      })
+    } else {
+      res.status(200).json({
+        success: true,
+        message: `Project with ${projectId} has been deleted`
+      })
+    }
+  } catch(error) {
+    console.error("Error deleting project", error)
+    res.status(500).json({
+      success: false,
+      response: error,
+      message: "Could not delete project"
+    })
+  }
+})
 export default router;
