@@ -3,7 +3,8 @@ import { useTask } from "../context/TaskContext";
 
 export const ProjectList = () => {
   const { projectList, tasklist, fetchProjects, setProjectList } = useTask();
-  const [filteredTasks, setFilteredTasks] = useState([]);
+  // const [filteredTasks, setFilteredTasks] = useState([]);
+const [selectedProject, setSelectedProject] = useState(null);
 
   useEffect(() => {
     fetchProjects();
@@ -16,9 +17,14 @@ export const ProjectList = () => {
     e.preventDefault();
     const value = e.target.textContent;
     console.log("current task list:", tasklist);
-    const newTasklist = tasklist.filter((item) => item.project === value);
-    setFilteredTasks(newTasklist);
+    // const newTasklist = tasklist.filter((item) => item.project === value);
+    // setFilteredTasks(newTasklist);
+    // console.log("new task list", newTasklist)
+    // return newTasklist
+    setSelectedProject(value)
   };
+
+  const filteredTasks = tasklist.filter(item => item.project === selectedProject)
 
   const toggleTask = (id) => {
     setFilteredTasks((prev) => {
@@ -28,6 +34,15 @@ export const ProjectList = () => {
     });
   };
 
+  // const deleteTask = (id) => {
+  //   setFilteredTasks((prev) => {
+  //     const updatedList = prev.filter((item) => item._id !== id);
+  //     console.log(updatedList);
+  //     return updatedList;
+  //   });
+  // };
+
+
   const deleteTask = (id) => {
     setFilteredTasks((prev) => {
       const updatedList = prev.filter((item) => item._id !== id);
@@ -35,7 +50,6 @@ export const ProjectList = () => {
       return updatedList;
     });
   };
-
   const deleteProject = async (projId) => {
     try {
       const response = await fetch(`${backend_url}/projects/${projId}`, {
@@ -64,6 +78,7 @@ export const ProjectList = () => {
   useEffect(() => {
     console.log("current project list:", projectList);
   }, [projectList]);
+
   return (
     <>
       {projectList.map((proj) => (

@@ -80,6 +80,27 @@ export const TaskProvider = ({ children }) => {
     }
   };
 
+  const deleteTask = async (taskId) => {
+    try {
+      const response = await fetch(`${backend_url}/tasks/${taskId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete task");
+      }
+
+      const data = await response.json();
+      console.log("task deleted successfully:", data);
+      setTasklist((prev) => prev.filter((task) => task._id !== taskId));
+    } catch (error) {
+      console.error("Error deleting task:", error);
+    }
+  };
+
   const toggleTask = (id) => {
     setTasklist((prev) => {
       return prev.map((item) =>
@@ -119,7 +140,8 @@ export const TaskProvider = ({ children }) => {
         projectData,
         setProjectData,
         fetchProjects,
-        setProjectList
+        setProjectList,
+        deleteTask,
       }}
     >
       {children}
