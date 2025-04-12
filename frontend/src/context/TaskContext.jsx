@@ -119,6 +119,7 @@ export const TaskProvider = ({ children }) => {
         projectData,
         setProjectData,
         fetchProjects,
+        setProjectList
       }}
     >
       {children}

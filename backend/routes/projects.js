@@ -40,7 +40,7 @@ router.post("/", async (req, res) => {
 });
 
 // delete a project
-router.post("/:projectId", async (req, res) => {
+router.delete("/:projectId", async (req, res) => {
   const {projectId} = req.params
 
   if (!mongoose.Types.ObjectId.isValid(projectId)) {

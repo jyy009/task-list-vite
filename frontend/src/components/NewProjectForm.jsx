@@ -47,9 +47,6 @@ export const NewProjectForm = () => {
     }
   };
 
-  useEffect(() => {
-    console.log("current project list:", projectList);
-  }, [projectList]);
 
   useEffect(() => {
     console.log("current project data:", projectData);

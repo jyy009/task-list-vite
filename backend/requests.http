@@ -15,10 +15,20 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:8080/tasks/67ed562ef1201816b335af3e
+DELETE http://localhost:8080/tasks/67ee60aa2f42ab2b0df3d3e3
+
+
+
+
+
+
+
 
 ###
 GET http://localhost:8080/projects
+
+###
+DELETE http://localhost:8080/projects/67faaa32361763ba20972054
 
 ###
 POST http://localhost:8080/projects

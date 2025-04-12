@@ -9,6 +9,9 @@ export const ProjectList = () => {
     fetchProjects();
   }, []);
 
+  const backend_url =
+    import.meta.env.VITE_BACKEND_URL || "http://localhost:8080";
+
   const handleButtonClick = (e) => {
     e.preventDefault();
     const value = e.target.textContent;
@@ -33,11 +36,25 @@ export const ProjectList = () => {
     });
   };
 
-  const deleteProject = (id) => {
-    setProjectList((prev) => prev.filter((item) => item._id) === id);
+  const deleteProject = async (projId) => {
+    try {
+      const response = await fetch(`${backend_url}/projects/${projId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-    console.log("project list", projectList);
-    return projectList;
+      if (!response.ok) {
+        throw new Error("Failed to delete project");
+      }
+
+      const data = await response.json();
+      console.log("project data:", data);
+      setProjectList((prev) => prev.filter((item) => item._id !== projId));
+    } catch (error) {
+      console.error("Error deleting project", error);
+    }
   };
 
   useEffect(() => {
