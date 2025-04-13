@@ -2,16 +2,11 @@ import React, { useEffect } from "react";
 import { useTask } from "../context/TaskContext";
 
 export const TaskList = () => {
-  const { tasklist, toggleTask, fetchTasks, setTasklist, loading, deleteTask } =
-    useTask();
-
-
+  const { tasklist, toggleTask, fetchTasks, loading, deleteTask, formatDate } = useTask();
 
   useEffect(() => {
     fetchTasks();
   }, []);
-
-
 
   return (
     <>
@@ -31,7 +26,7 @@ export const TaskList = () => {
           <label htmlFor="completed">{task.title}</label>
 
           <p>{task.description}</p>
-          <p>{task.due}</p>
+          <p>{formatDate(task.due)}</p>
           <p>{task.priority ? "!" : ""}</p>
 
           <button onClick={() => deleteTask(task._id)}>Delete</button>

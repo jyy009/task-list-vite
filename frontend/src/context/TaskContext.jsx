@@ -5,15 +5,22 @@ const TaskContext = createContext();
 
 export const TaskProvider = ({ children }) => {
   const [tasklist, setTasklist] = useState([]);
+
+  const formatDate = (date) => {
+    const d = new Date(date);
+    console.log("date", date);
+    return d.toISOString().split("T")[0];
+  };
+
   const [formData, setFormData] = useState({
     title: "",
     description: "",
-    due: format(new Date(), "yyyy-MM-dd"),
+    due: formatDate(new Date()),
     priority: false,
     project: "",
   });
-  const [loading, setLoading] = useState(false);
-  const [projectsLoading, setProjectsLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [projectsLoading, setProjectsLoading] = useState(true);
 
   const [projectList, setProjectList] = useState([]);
   const [projectData, setProjectData] = useState({
@@ -35,7 +42,6 @@ export const TaskProvider = ({ children }) => {
   };
 
   const fetchTasks = async () => {
-    setLoading(true);
 
     try {
       const response = await fetch(`${backend_url}/tasks`, {
@@ -58,7 +64,6 @@ export const TaskProvider = ({ children }) => {
   };
 
   const fetchProjects = async () => {
-    setProjectsLoading(true);
     try {
       const response = await fetch(`${backend_url}/projects`, {
         method: "GET",
@@ -113,13 +118,19 @@ export const TaskProvider = ({ children }) => {
     console.log("current tasklist:", tasklist);
   }, [tasklist]);
 
-  const clearForm = () => {
+  const clearTaskForm = () => {
     setFormData({
       title: "",
       description: "",
-      due: "",
+      due: formatDate(new Date()),
       priority: false,
       project: "",
+    });
+  };
+
+  const clearProjectForm = () => {
+    setProjectData({
+      name: "",
     });
   };
 
@@ -131,7 +142,7 @@ export const TaskProvider = ({ children }) => {
         tasklist,
         setTasklist,
         addTask,
-        clearForm,
+        clearTaskForm,
         projectList,
         addProjectToList,
         fetchTasks,
@@ -142,6 +153,8 @@ export const TaskProvider = ({ children }) => {
         fetchProjects,
         setProjectList,
         deleteTask,
+        formatDate,
+        clearProjectForm,
       }}
     >
       {children}

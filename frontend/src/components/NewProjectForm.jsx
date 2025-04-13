@@ -1,14 +1,13 @@
 import React, { useEffect } from "react";
 import { useTask } from "../context/TaskContext";
-import { ProjectList } from "./ProjectList";
 
 export const NewProjectForm = () => {
   const {
     projectList,
-
     projectData,
     setProjectData,
     addProjectToList,
+    clearProjectForm,
   } = useTask();
 
   const backend_url =
@@ -44,9 +43,10 @@ export const NewProjectForm = () => {
       addProjectToList(data);
     } catch (error) {
       console.error("Error adding project:", error);
+    } finally {
     }
+    clearProjectForm();
   };
-
 
   useEffect(() => {
     console.log("current project data:", projectData);
@@ -65,6 +65,7 @@ export const NewProjectForm = () => {
           name="name"
           onChange={handleInputChange}
           value={projectData.name}
+          required
         />
         <button type="submit">Add</button>
       </form>

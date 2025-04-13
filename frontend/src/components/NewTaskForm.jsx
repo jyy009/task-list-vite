@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { useTask } from "../context/TaskContext";
 
-
 export const NewTaskForm = () => {
   const backend_url =
     import.meta.env.VITE_BACKEND_URL || "http://localhost:8080";
 
-  const { formData, setFormData, projectList, addTask, clearForm } = useTask();
+  const { formData, setFormData, projectList, addTask, clearTaskForm } =
+    useTask();
 
   const handleInputChange = (e) => {
     const { name, value, checked, type } = e.target;
@@ -37,7 +37,7 @@ export const NewTaskForm = () => {
     } catch (error) {
       console.error("Error adding task:", error);
     } finally {
-      clearForm();
+      clearTaskForm();
       console.log("form data after submit:", formData);
     }
   };
@@ -53,6 +53,7 @@ export const NewTaskForm = () => {
           name="title"
           onChange={handleInputChange}
           value={formData.title}
+          required
         />
 
         <label htmlFor="desription">Notes</label>
