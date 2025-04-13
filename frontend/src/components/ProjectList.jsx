@@ -67,29 +67,36 @@ export const ProjectList = () => {
 
   return (
     <>
-      {projectList.map((proj) => (
-        <div key={proj._id}>
-          <button onClick={handleButtonClick}>{proj.name}</button>
-          <button onClick={() => deleteProject(proj._id)}>Delete</button>
-        </div>
-      ))}
+      <section>
+        <h3>Filter tasks by project</h3>
+        <ul aria-label="List of project filters">
+          {projectList.map((proj) => (
+            <li key={proj._id}>
+              <button onClick={handleButtonClick}>{proj.name}</button>
+              <button onClick={() => deleteProject(proj._id)}>Delete</button>
+            </li>
+          ))}
+        </ul>
 
-      {filteredTasks.map((item) => (
-        <div className="filteredTaskContainer" key={item._id}>
-          <input
-            id="completed"
-            className="completed-input"
-            type="checkbox"
-            checked={item.completed}
-            onChange={() => toggleTask(item._id)}
-          />
-          <label htmlFor="completed">{item.title}</label>
-          <p>{item.description}</p>
-          <p>{item.due}</p>
-          <p>{item.priority ? "!" : ""}</p>
-          <button onClick={() => deleteTask(item._id)}>Delete</button>
-        </div>
-      ))}
+        <ul aria-label="Filtered tasks by project">
+          {filteredTasks.map((item) => (
+            <li className="filteredTaskContainer" key={item._id}>
+              <input
+                id="completed"
+                className="completed-input"
+                type="checkbox"
+                checked={item.completed}
+                onChange={() => toggleTask(item._id)}
+              />
+              <label htmlFor="completed">{item.title}</label>
+              <p>{item.description}</p>
+              <p>{item.due}</p>
+              <p>{item.priority ? "!" : ""}</p>
+              <button onClick={() => deleteTask(item._id)}>Delete</button>
+            </li>
+          ))}
+        </ul>
+      </section>
     </>
   );
 };

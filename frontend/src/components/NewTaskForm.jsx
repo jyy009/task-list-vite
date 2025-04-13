@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useTask } from "../context/TaskContext";
 
 export const NewTaskForm = () => {
@@ -43,8 +43,11 @@ export const NewTaskForm = () => {
   };
 
   return (
-    <>
-      <form id="task-form" onSubmit={handleSubmit}>
+    <form id="task-form" onSubmit={handleSubmit}>
+      <fieldset>
+        <legend className="sr-only">Create new todo</legend>
+        <h2>Create new todo</h2>
+
         <label htmlFor="task">Title</label>
         <input
           id="task"
@@ -56,7 +59,7 @@ export const NewTaskForm = () => {
           required
         />
 
-        <label htmlFor="desription">Notes</label>
+        <label htmlFor="description">Notes</label>
         <input
           id="description"
           className="description-input"
@@ -75,7 +78,6 @@ export const NewTaskForm = () => {
           onChange={handleInputChange}
           value={formData.due}
         />
-
         <label htmlFor="priority">Priority</label>
         <input
           id="priority"
@@ -106,7 +108,7 @@ export const NewTaskForm = () => {
           })}
         </select>
         <button type="submit">Add</button>
-      </form>
-    </>
+      </fieldset>
+    </form>
   );
 };

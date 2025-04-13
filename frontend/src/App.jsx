@@ -10,10 +10,12 @@ export const App = () => {
   return (
     <TaskProvider>
       <Header />
-      <NewProjectForm />
-      <ProjectList />
-      <NewTaskForm />
-      <TaskList />
+      <main>
+        <NewProjectForm />
+        <ProjectList />
+        <NewTaskForm />
+        <TaskList />
+      </main>
     </TaskProvider>
   );
 };

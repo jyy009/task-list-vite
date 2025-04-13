@@ -53,9 +53,8 @@ export const NewProjectForm = () => {
   }, [projectData]);
 
   return (
-    <>
-      <h3 className="project-header">Projects</h3>
-
+    <section>
+      <h2 className="project-header">Add a Project</h2>
       <form id="project-form" onSubmit={handleSubmit}>
         <label htmlFor="project-input">Project name </label>
         <input
@@ -67,10 +66,8 @@ export const NewProjectForm = () => {
           value={projectData.name}
           required
         />
-        <button type="submit">Add</button>
+        <button type="submit">Add Project</button>
       </form>
-
-      {/* {projectList.length > 0 ? <ProjectList /> : null} */}
-    </>
+    </section>
   );
 };
