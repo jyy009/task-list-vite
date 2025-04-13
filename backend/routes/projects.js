@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import Project from "../models/Project.js";
+import Task from "../models/Task.js";
 const router = express.Router();
 
 // get all the projects
@@ -58,13 +59,16 @@ router.delete("/:projectId", async (req, res) => {
       return res.status(404).json({
         success: false,
         message: "Could not find project"
-      })
-    } else {
+      })}
+
+
+      await Task.deleteMany({ project: deletedProject.name})
+
       res.status(200).json({
         success: true,
-        message: `Project with ${projectId} has been deleted`
+        message: `Project with ID ${projectId} and its tasks have been deleted`
       })
-    }
+    
   } catch(error) {
     console.error("Error deleting project", error)
     res.status(500).json({

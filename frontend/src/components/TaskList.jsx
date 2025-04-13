@@ -5,33 +5,13 @@ export const TaskList = () => {
   const { tasklist, toggleTask, fetchTasks, setTasklist, loading, deleteTask } =
     useTask();
 
-  const backend_url =
-    import.meta.env.VITE_BACKEND_URL || "http://localhost:8080";
+
 
   useEffect(() => {
     fetchTasks();
   }, []);
 
-  // const handleDelete = async (taskId) => {
-  //   try {
-  //     const response = await fetch(`${backend_url}/tasks/${taskId}`, {
-  //       method: "DELETE",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //     });
 
-  //     if (!response.ok) {
-  //       throw new Error("Failed to delete task");
-  //     }
-
-  //     const data = await response.json();
-  //     console.log("task deleted successfully:", data);
-  //     setTasklist((prev) => prev.filter((task) => task._id !== taskId));
-  //   } catch (error) {
-  //     console.error("Error deleting task:", error);
-  //   }
-  // };
 
   return (
     <>
