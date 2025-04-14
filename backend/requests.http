@@ -1,3 +1,5 @@
+// TASKS
+
 ###
 GET http://localhost:8080/tasks
 
@@ -21,7 +23,7 @@ DELETE http://localhost:8080/tasks/67ee60aa2f42ab2b0df3d3e3
 
 
 
-
+// PROJECTS
 
 
 ###
@@ -36,5 +38,5 @@ Content-Type: application/json
 
 
 {
-    "name": "home"
+    "name": "school"
 }

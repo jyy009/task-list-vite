@@ -27,12 +27,24 @@ router.post("/", async (req, res) => {
     console.log(req.body);
     const { name } = req.body;
 
-    const newProj = new Project({ name });
+    let existingProject = await Project.findOne({ name });
 
-    await newProj.save();
-    console.log("new project added:", newProj);
-    res.status(201).json(newProj);
+    if (existingProject) {
+      return res.status(400).json("project already exists");
+    }
+
+    const newProject = new Project({ name });
+    const savedProject = await newProject.save();
+    console.log("new project added:", savedProject);
+    res.status(201).json(savedProject);
   } catch (error) {
+    if (error.code === 11000) {
+      return res.status(409).json({
+        success: false,
+        message: "Project with this name already exists.",
+      });
+    }
+    console.error("Error creating project", error);
     res.status(500).json({
       success: false,
       message: error.message,
@@ -42,7 +54,7 @@ router.post("/", async (req, res) => {
 
 // delete a project
 router.delete("/:projectId", async (req, res) => {
-  const {projectId} = req.params
+  const { projectId } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(projectId)) {
     return res.status(400).json({
@@ -52,30 +64,29 @@ router.delete("/:projectId", async (req, res) => {
   }
 
   try {
-    const deletedProject = await Project.findByIdAndDelete(projectId)
-    console.log("Deleted project:", deletedProject)
+    const deletedProject = await Project.findByIdAndDelete(projectId);
+    console.log("Deleted project:", deletedProject);
 
     if (!deletedProject) {
       return res.status(404).json({
         success: false,
-        message: "Could not find project"
-      })}
+        message: "Could not find project",
+      });
+    }
 
+    await Task.deleteMany({ project: deletedProject.name });
 
-      await Task.deleteMany({ project: deletedProject.name})
-
-      res.status(200).json({
-        success: true,
-        message: `Project with ID ${projectId} and its tasks have been deleted`
-      })
-    
-  } catch(error) {
-    console.error("Error deleting project", error)
+    res.status(200).json({
+      success: true,
+      message: `Project with ID ${projectId} and its tasks have been deleted`,
+    });
+  } catch (error) {
+    console.error("Error deleting project", error);
     res.status(500).json({
       success: false,
       response: error,
-      message: "Could not delete project"
-    })
+      message: "Could not delete project",
+    });
   }
-})
+});
 export default router;
