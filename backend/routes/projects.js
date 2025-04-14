@@ -27,14 +27,14 @@ router.post("/", async (req, res) => {
     console.log(req.body);
     const { name } = req.body;
 
-    let existingProject = await Project.findOne({ name });
+    const existingProject = await Project.findOne({ name });
 
     if (existingProject) {
       return res.status(400).json("project already exists");
     }
 
     const newProject = new Project({ name });
-    const savedProject = await newProject.save();
+   const savedProject =  await newProject.save();
     console.log("new project added:", savedProject);
     res.status(201).json(savedProject);
   } catch (error) {
@@ -44,7 +44,7 @@ router.post("/", async (req, res) => {
         message: "Project with this name already exists.",
       });
     }
-    console.error("Error creating project", error);
+
     res.status(500).json({
       success: false,
       message: error.message,

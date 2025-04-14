@@ -8,6 +8,8 @@ export const NewProjectForm = () => {
     setProjectData,
     addProjectToList,
     clearProjectForm,
+    setFormError,
+    formError,
   } = useTask();
 
   const backend_url =
@@ -33,19 +35,22 @@ export const NewProjectForm = () => {
         body: JSON.stringify(projectData),
       });
 
+      const data = await response.json();
+      console.log("project data", data);
+
       if (!response.ok) {
-        throw new Error("Error adding project");
+        throw new Error(data.message || "Failed to add project");
       }
 
-      const data = await response.json();
       console.log("response from server:", data);
       console.log("Before adding project:", projectList);
       addProjectToList(data);
+      clearProjectForm();
+      setFormError("")
     } catch (error) {
-      console.error("Error adding project:", error);
-    } finally {
+      console.error("Error adding project:", error.message);
+      setFormError(error.message)
     }
-    clearProjectForm();
   };
 
   useEffect(() => {
@@ -53,21 +58,25 @@ export const NewProjectForm = () => {
   }, [projectData]);
 
   return (
-    <section aria-label="project-header">
-      <h2>Add a Project</h2>
-      <form id="project-form" onSubmit={handleSubmit}>
-        <label htmlFor="project-input">Project name </label>
-        <input
-          id="project-input"
-          className="input"
-          type="text"
-          name="name"
-          onChange={handleInputChange}
-          value={projectData.name}
-          required
-        />
-        <button type="submit">Add Project</button>
-      </form>
-    </section>
+    <>
+      <section aria-label="project-header">
+        <h2>Add a Project</h2>
+        <form id="project-form" onSubmit={handleSubmit}>
+          <label htmlFor="project-input">Project name </label>
+          <input
+            id="project-input"
+            className="input"
+            type="text"
+            name="name"
+            onChange={handleInputChange}
+            value={projectData.name}
+            required
+          />
+          <button type="submit">Add Project</button>
+        </form>
+
+        {formError && <p>{formError}</p>}
+      </section>
+    </>
   );
 };
