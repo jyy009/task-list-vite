@@ -53,8 +53,8 @@ export const NewProjectForm = () => {
   }, [projectData]);
 
   return (
-    <section>
-      <h2 className="project-header">Add a Project</h2>
+    <section aria-label="project-header">
+      <h2>Add a Project</h2>
       <form id="project-form" onSubmit={handleSubmit}>
         <label htmlFor="project-input">Project name </label>
         <input

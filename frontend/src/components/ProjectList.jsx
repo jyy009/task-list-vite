@@ -67,9 +67,9 @@ export const ProjectList = () => {
 
   return (
     <>
-      <section>
+      <section aria-label="filter tasks by projects section">
         <h3>Filter tasks by project</h3>
-        <ul aria-label="List of project filters">
+        <ul>
           {projectList.map((proj) => (
             <li key={proj._id}>
               <button onClick={handleButtonClick}>{proj.name}</button>
@@ -78,7 +78,7 @@ export const ProjectList = () => {
           ))}
         </ul>
 
-        <ul aria-label="Filtered tasks by project">
+        <ul aria-label="Tasks filtered by project">
           {filteredTasks.map((item) => (
             <li className="filteredTaskContainer" key={item._id}>
               <input
