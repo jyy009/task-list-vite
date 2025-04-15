@@ -36,7 +36,7 @@ router.post("/", async (req, res) => {
 router.delete("/:taskId", async (req, res) => {
   const { taskId } = req.params;
 
-  if (!mongoose.Types.ObjectId.isValid(taskId)) {
+  if (!mongoose.isValidObjectId(taskId)) {
     return res.status(400).json({
       success: false,
       message: "Invalid task ID",

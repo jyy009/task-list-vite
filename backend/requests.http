@@ -30,7 +30,7 @@ DELETE http://localhost:8080/tasks/67ee60aa2f42ab2b0df3d3e3
 GET http://localhost:8080/projects
 
 ###
-DELETE http://localhost:8080/projects/67faaa32361763ba20972054
+DELETE http://localhost:8080/projects/%7B%22$ne%22:null%7D
 
 ###
 POST http://localhost:8080/projects
@@ -38,5 +38,5 @@ Content-Type: application/json
 
 
 {
-    "name": "work"
+    "name": "home"
 }

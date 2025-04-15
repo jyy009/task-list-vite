@@ -34,7 +34,7 @@ router.post("/", async (req, res) => {
     }
 
     const newProject = new Project({ name });
-   const savedProject =  await newProject.save();
+    const savedProject =  await newProject.save();
     console.log("new project added:", savedProject);
     res.status(201).json(savedProject);
   } catch (error) {
@@ -56,7 +56,7 @@ router.post("/", async (req, res) => {
 router.delete("/:projectId", async (req, res) => {
   const { projectId } = req.params;
 
-  if (!mongoose.Types.ObjectId.isValid(projectId)) {
+  if (!mongoose.isValidObjectId(projectId)) {
     return res.status(400).json({
       success: false,
       message: "Invalid project ID",
@@ -64,8 +64,10 @@ router.delete("/:projectId", async (req, res) => {
   }
 
   try {
-    const deletedProject = await Project.findByIdAndDelete(projectId);
     console.log("Deleted project:", deletedProject);
+    const deletedProject = await Project.findByIdAndDelete(projectId);
+        console.log("Deleted project:", deletedProject);
+
 
     if (!deletedProject) {
       return res.status(404).json({
