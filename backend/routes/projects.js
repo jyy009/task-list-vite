@@ -55,17 +55,17 @@ router.post("/", async (req, res) => {
 // delete a project
 router.delete("/:projectId", async (req, res) => {
   const { projectId } = req.params;
-// const projId = req.params.projectId
-  // if (!mongoose.isValidObjectId(projectId)) {
-  //   return res.status(400).json({
-  //     success: false,
-  //     message: "Invalid project ID",
-  //   });
-  // }
+
+  if (!mongoose.isValidObjectId(projectId)) {
+    return res.status(400).json({
+      success: false,
+      message: "Invalid project ID",
+    });
+  }
 
   try {
     console.log("Deleted project:", deletedProject);
-    const deletedProject = await Project.findOneAndDelete(projectId);
+    const deletedProject = await Project.findByIdAndDelete(projectId);
         console.log("Deleted project:", deletedProject);
 
 

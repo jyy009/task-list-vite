@@ -30,7 +30,7 @@ DELETE http://localhost:8080/tasks/67ee60aa2f42ab2b0df3d3e3
 GET http://localhost:8080/projects
 
 ###
-DELETE http://localhost:8080/projects/%7B%22$ne%22:null%7D
+DELETE http://localhost:8080/projects/67feb8a855d7f17fc6ab941b
 
 ###
 POST http://localhost:8080/projects
