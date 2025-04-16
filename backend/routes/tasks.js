@@ -4,8 +4,7 @@ import Task from "../models/Task.js";
 const router = express.Router();
 import { validationResult } from "express-validator";
 import {
-  createTaskFormValidation,
-  createDeleteTaskValidation,
+  createTaskFormValidation
 } from "../validators/validator.js";
 
 // get all the tasks
