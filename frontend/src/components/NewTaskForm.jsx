@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useTask } from "../context/TaskContext";
 
 export const NewTaskForm = () => {
@@ -7,6 +7,8 @@ export const NewTaskForm = () => {
 
   const { formData, setFormData, projectList, addTask, clearTaskForm } =
     useTask();
+
+  const [taskFormSubmitted, setTaskFormSubmitted] = useState(null);
 
   const handleInputChange = (e) => {
     const { name, value, checked, type } = e.target;
@@ -34,17 +36,18 @@ export const NewTaskForm = () => {
       const data = await response.json();
       console.log("response from server:", data);
       addTask(data);
+      clearTaskForm();
+      setTaskFormSubmitted("Task has been added");
     } catch (error) {
       console.error("Error adding task:", error);
-    } finally {
-      clearTaskForm();
       console.log("form data after submit:", formData);
+      setTaskFormSubmitted("Failed to add task", error.message);
     }
   };
 
   return (
     <section aria-label="task form section">
-      <h2>Create new task</h2>
+      <h2 id="task-form-heading">Create new task</h2>
       <form id="task-form" onSubmit={handleSubmit}>
         <fieldset aria-labelledby="task-form-heading">
           <legend className="sr-only">Create new task</legend>
@@ -84,6 +87,7 @@ export const NewTaskForm = () => {
             name="priority"
             checked={formData.priority}
             onChange={handleInputChange}
+            aria-label="Mark as high priority"
           />
           <label htmlFor="project-select">Project</label>
           <select
@@ -105,6 +109,7 @@ export const NewTaskForm = () => {
             })}
           </select>
           <button type="submit">Add</button>
+          {taskFormSubmitted && <p>{taskFormSubmitted}</p>}
         </fieldset>
       </form>
     </section>

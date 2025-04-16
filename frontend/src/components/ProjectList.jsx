@@ -10,6 +10,7 @@ export const ProjectList = () => {
     deleteTask,
     toggleTask,
     setTasklist,
+    formatDate
   } = useTask();
   const [selectedProject, setSelectedProject] = useState(null);
 
@@ -68,7 +69,7 @@ export const ProjectList = () => {
   return (
     <>
       <section aria-label="filter tasks by projects section">
-        <h3>Filter tasks by project</h3>
+        <h2>Filter tasks by project</h2>
         <ul>
           {projectList.map((proj) => (
             <li key={proj._id}>
@@ -82,15 +83,15 @@ export const ProjectList = () => {
           {filteredTasks.map((item) => (
             <li className="filteredTaskContainer" key={item._id}>
               <input
-                id="completed"
+                id={`completed- ${item._id}`}
                 className="completed-input"
                 type="checkbox"
                 checked={item.completed}
                 onChange={() => toggleTask(item._id)}
               />
-              <label htmlFor="completed">{item.title}</label>
+              <label htmlFor={`completed- ${item._id}`}>{item.title}</label>
               <p>{item.description}</p>
-              <p>{item.due}</p>
+              <p>{formatDate(item.due)}</p>
               <p>{item.priority ? "!" : ""}</p>
               <button onClick={() => deleteTask(item._id)}>Delete</button>
             </li>

@@ -15,20 +15,20 @@ export const TaskList = () => {
 
       {tasklist.length === 0 && !loading && <p>You have no tasks</p>}
 
-      <section>
-        <h3>All Tasks</h3>
+      <section aria-label="all tasks section">
+        <h2>All Tasks</h2>
 
         <ul aria-label="all tasks section">
           {tasklist.map((task) => (
             <li className="taskContainer" key={task._id}>
               <input
-                id="completed"
+                id={`completed-${task._id}`}
                 className="completed-input"
                 type="checkbox"
                 checked={task.completed}
                 onChange={() => toggleTask(task._id)}
               />
-              <label htmlFor="completed">{task.title}</label>
+              <label htmlFor={`completed-${task._id}`}>{task.title}</label>
               <p>{task.description}</p>
               <p>{formatDate(task.due)}</p>
               <p>{task.priority ? "!" : ""}</p>
