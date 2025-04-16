@@ -9,11 +9,11 @@ POST http://localhost:8080/tasks
 Content-Type: application/json
 
 {
-  "title": "swim",
-  "description": "with friend",
+  "title": "tee",
+  "description": "express 3",
   "priority": false,
-  "project": "test project",
-  "due": null
+  "project": "test project"
+
 }
 
 ###
@@ -38,5 +38,10 @@ Content-Type: application/json
 
 
 {
-    "name": "work"
+    
 }
+
+
+
+###
+GET http://localhost:8080/example

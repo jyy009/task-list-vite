@@ -3,6 +3,8 @@ import mongoose from "mongoose";
 import Project from "../models/Project.js";
 import Task from "../models/Task.js";
 const router = express.Router();
+import { createProjectFormValidation } from "../validators/validator.js";
+import { validationResult } from "express-validator";
 
 // get all the projects
 router.get("/", async (req, res) => {
@@ -22,7 +24,13 @@ router.get("/", async (req, res) => {
 });
 
 // add a project
-router.post("/", async (req, res) => {
+router.post("/", createProjectFormValidation(), async (req, res) => {
+  const errors = validationResult(req);
+  console.log("errors array", errors)
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
   try {
     console.log(req.body);
     const { name } = req.body;
@@ -34,7 +42,7 @@ router.post("/", async (req, res) => {
     }
 
     const newProject = new Project({ name });
-    const savedProject =  await newProject.save();
+    const savedProject = await newProject.save();
     console.log("new project added:", savedProject);
     res.status(201).json(savedProject);
   } catch (error) {
@@ -66,8 +74,7 @@ router.delete("/:projectId", async (req, res) => {
   try {
     console.log("Deleted project:", deletedProject);
     const deletedProject = await Project.findByIdAndDelete(projectId);
-        console.log("Deleted project:", deletedProject);
-
+    console.log("Deleted project:", deletedProject);
 
     if (!deletedProject) {
       return res.status(400).json({

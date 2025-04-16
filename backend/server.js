@@ -1,13 +1,10 @@
 import express from "express";
 import mongoose from "mongoose";
 
-import cors from "cors"
+import cors from "cors";
 import taskRoutes from "./routes/tasks.js";
 import projectRoutes from "./routes/projects.js";
 require("dotenv").config({ path: "../.env" });
-// import "dotenv/config";
-
-
 
 const mongoURL = process.env.MONGO_URL || "mongodb://localhost/tasks";
 
@@ -26,73 +23,4 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/tasks", taskRoutes);
 app.use("/projects", projectRoutes);
 
-
-
-// app.use("/", projectRoutes);
-
-// // get all the tasks
-// app.get("/tasks", async (req, res) => {
-//   try {
-//     const allTasks = await Task.find().exec();
-//     if (allTasks.length > 0) {
-//       res.json(allTasks)
-//     } else {
-//       res.status(404).send("No tasks found");
-//     }
-//   } catch (error) {
-//     res.status(500).send(error.message);
-//   }
-// });
-
-// // post a task
-// app.post("/tasks", async (req, res) => {
-//   try {
-//     const { title, description, due, priority, project } = req.body;
-
-//     const newTask = new Task({ title, description, due, priority, project });
-
-//     await newTask.save();
-//     res.status(201).send("Task added to list");
-//   } catch (error) {
-//     res.status(400).send(error.message);
-//   }
-// });
-
-// // delete a task
-// app.delete("/tasks/:taskId", async (req, res) => {
-//   const { taskId } = req.params;
-
-//   if (!mongoose.Types.ObjectId.isValid(taskId)) {
-//     return res.status(400).json({
-//       success: false,
-//       message: "Invalid task ID",
-//     });
-//   }
-
-//   try {
-//     const deletedTask = await Task.findByIdAndDelete(taskId);
-//     console.log("deleted task:", deletedTask);
-
-//     if (!deletedTask) {
-//       return res.status(404).json({
-//         success: false,
-//         message: "Could not find task",
-//       });
-//     } else {
-//       res.status(200).json({
-//         success: true,
-//         message: `Task with id: ${taskId} has been deleted`,
-//       });
-//     }
-//   } catch (error) {
-//     console.error("Error deleting task:", error);
-//     res.status(500).json({
-//       success: false,
-//       response: error,
-//       message: "Could not delete task",
-//     });
-//   }
-// });
-
 app.listen(port, () => console.log(`App listening on port ${port}`));
-
