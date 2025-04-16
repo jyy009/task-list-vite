@@ -2,6 +2,11 @@ import express from "express";
 import mongoose from "mongoose";
 import Task from "../models/Task.js";
 const router = express.Router();
+import { validationResult } from "express-validator";
+import {
+  createTaskFormValidation,
+  createDeleteTaskValidation,
+} from "../validators/validator.js";
 
 // get all the tasks
 router.get("/", async (req, res) => {
@@ -18,7 +23,13 @@ router.get("/", async (req, res) => {
 });
 
 // post a task
-router.post("/", async (req, res) => {
+router.post("/", createTaskFormValidation(), async (req, res) => {
+  const errors = validationResult(req);
+    console.log("errors array", errors);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
   try {
     const { title, description, due, priority, project } = req.body;
 
