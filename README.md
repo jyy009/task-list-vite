@@ -20,33 +20,13 @@ Two vulnerabilities that my project has are:
 
 1. Malicious requests
 
-The API for tasks and projects both have a DELETE endpoint where users can delete a task or project. In both endpoints, I first use
+The API for tasks and projects both have a DELETE endpoint where I use ``` isValidObjectId() ``` to check if the request paramameter is a valid 24-character hex ObjectId that MongoDB creates and uses for each document.
 
-```
-isValidObjectId()
-```
+If the check returns an invalid ID, the endpoint immediately gives an error with a 400 status code and avoids unecessary database queries.
 
-to check if the input from the request paramameter is a valid MongoDB ObjectId. If it's not a valid ObjectId, the code will stop early and return a 404 status code instead of unecessarily querying the database.
+If the check returns a valid ID, the code uses ``` findByIdAndDelete() ``` which expects an ObjectId and casts it to an ObjectId. Validating the input first avoids any errors or unexpected behavior at this step. It also prevents malicious inputs to be used as query filters.
 
-If the request parameter is a valid ObjectId, then I use
-
-```
-findByIdAndDelete()
-```
-
-which type casts the request parameter to be an ObjectID. Having this check prevents malicious requests. If I didn't have object validation, and used only
-
-```
-findOneAndDelete()
-```
-
-instead, and the user tried to send a malformed input such as an object like
-
-```
-{"$ne":null}
-```
-
-to delete a document, Mongoose interprets this as a filter method where any field is not equal to 'null' which is any document. It then can go on to delete that document.
+In contrast, if I didn't validate the user input and directly passed it to a method like ``` findOneAndDelete() ```, malicious inputs e.g., ``` {"$ne":null} ``` can manipulate the query and delete documents where any field is not equal to 'null', which is any document.
 
 2. Identification and Authentication Failures
 

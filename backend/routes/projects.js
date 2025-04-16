@@ -70,7 +70,7 @@ router.delete("/:projectId", async (req, res) => {
 
 
     if (!deletedProject) {
-      return res.status(404).json({
+      return res.status(400).json({
         success: false,
         message: "Could not find project",
       });

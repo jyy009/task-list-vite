@@ -48,7 +48,7 @@ router.delete("/:taskId", async (req, res) => {
     console.log("deleted task:", deletedTask);
 
     if (!deletedTask) {
-      return res.status(404).json({
+      return res.status(400).json({
         success: false,
         message: "Could not find task",
       });
