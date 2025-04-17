@@ -85,7 +85,7 @@ export const NewProjectForm = () => {
         </form>
 
         {formError && (
-          <p className="mt-4 text-orange-700  rounded px-3 py-2 text-center">
+          <p className="mt-4 text-orange-700 rounded px-3 py-2 text-center">
             {formError}
           </p>
         )}

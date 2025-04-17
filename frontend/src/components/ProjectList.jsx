@@ -83,7 +83,10 @@ export const ProjectList = () => {
               <Button
                 onClick={() => deleteProject(proj._id)}
                 text="Delete"
-                section="font-light"
+                section="font-light transition-all duration-150
+    focus:outline-none focus:ring-2 focus:ring-sky-700
+    hover:text-sky-700
+    hover:font-medium"
               />
             </div>
           )}
