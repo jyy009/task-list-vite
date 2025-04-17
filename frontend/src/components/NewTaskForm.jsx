@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useTask } from "../context/TaskContext";
+import { Header2 } from "../atoms/Header2";
 
 export const NewTaskForm = () => {
   const backend_url =
@@ -53,11 +54,11 @@ export const NewTaskForm = () => {
   };
 
   return (
-    <section aria-label="task form section">
-      <h2 id="task-form-heading">Create new task</h2>
+    <section>
+
+      <Header2 text="Create new Task" id="task-form-heading" />
       <form id="task-form" onSubmit={handleSubmit}>
         <fieldset aria-labelledby="task-form-heading">
-          <legend className="sr-only">Create new task</legend>
           <label htmlFor="task">Title</label>
           <input
             id="task"
@@ -94,7 +95,6 @@ export const NewTaskForm = () => {
             name="priority"
             checked={formData.priority}
             onChange={handleInputChange}
-            aria-label="Mark as high priority"
           />
           <label htmlFor="project-select">Project</label>
           <select
@@ -115,7 +115,7 @@ export const NewTaskForm = () => {
               );
             })}
           </select>
-          <button type="submit">Add</button>
+          <button type="submit">Add Task</button>
           {taskFormSubmitted && <p>{taskFormSubmitted}</p>}
         </fieldset>
       </form>

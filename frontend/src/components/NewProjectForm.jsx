@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useTask } from "../context/TaskContext";
-
+import {Header2}  from "../atoms/Header2";
+import { Button } from "../atoms/Button";
 export const NewProjectForm = () => {
   const {
     projectList,
@@ -46,10 +47,10 @@ export const NewProjectForm = () => {
       console.log("Before adding project:", projectList);
       addProjectToList(data);
       clearProjectForm();
-      setFormError("")
+      setFormError("");
     } catch (error) {
       console.error("Error adding project:", error.message);
-      setFormError(error.message)
+      setFormError(error.message);
     }
   };
 
@@ -59,23 +60,32 @@ export const NewProjectForm = () => {
 
   return (
     <>
-      <section aria-label="project-header">
-        <h2>Add a Project</h2>
+      <section className="bg-slate-50 rounded-lg shadow p-6 max-w-md mx-auto my-8">
+        <Header2 text="Add a project" />
         <form id="project-form" onSubmit={handleSubmit}>
-          <label htmlFor="project-input">Project name </label>
+          <label
+            className="block text-slate-700 font-medium"
+            htmlFor="project-input"
+          >
+            Project name{" "}
+          </label>
           <input
             id="project-input"
-            className="input"
+            className="block w-full px-3 py-2 border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-sky-700 bg-slate-50 text-slate-800 placeholder-slate-400"
             type="text"
             name="name"
             onChange={handleInputChange}
             value={projectData.name}
             required
           />
-          <button type="submit">Add Project</button>
+          <Button type="submit" text="Add Project" />
         </form>
 
-        {formError && <p>{formError}</p>}
+        {formError && (
+          <p className="mt-4 text-sky-900 bg-sky-100 rounded px-3 py-2 text-center">
+            {formError}
+          </p>
+        )}
       </section>
     </>
   );

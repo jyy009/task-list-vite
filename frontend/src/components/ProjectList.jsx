@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useTask } from "../context/TaskContext";
+import { Header2 } from "../atoms/Header2";
 
 export const ProjectList = () => {
   const {
@@ -68,8 +69,8 @@ export const ProjectList = () => {
 
   return (
     <>
-      <section aria-label="filter tasks by projects section">
-        <h2>Filter tasks by project</h2>
+      <section className="bg-slate-50 rounded-lg shadow p-6 max-w-md mx-auto my-8">
+        <Header2 text="Filter tasks by project" />
         <ul>
           {projectList.map((proj) => (
             <li key={proj._id}>
@@ -79,7 +80,7 @@ export const ProjectList = () => {
           ))}
         </ul>
 
-        <ul aria-label="Tasks filtered by project">
+        <ul>
           {filteredTasks.map((item) => (
             <li className="filteredTaskContainer" key={item._id}>
               <input
