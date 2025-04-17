@@ -21,6 +21,13 @@ export const NewTaskForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (window.gtag) {
+      window.gtag("event", "add_project", {
+        project: formData.title,
+        debug_mode: true,
+      });
+    } 
+  
     try {
       const response = await fetch(`${backend_url}/tasks`, {
         method: "POST",
