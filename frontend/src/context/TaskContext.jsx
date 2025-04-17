@@ -156,7 +156,8 @@ export const TaskProvider = ({ children }) => {
         formatDate,
         clearProjectForm,
         formError,
-        setFormError
+        setFormError,
+      
       }}
     >
       {children}

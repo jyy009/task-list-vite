@@ -1,7 +1,10 @@
-export const List = ({ ulClass, liClass, key}) => {
+export const List = ({ data, ulClass, renderItem, liClass}) => {
  return (
    <ul className={ulClass}>
-     <li key={key} className={liClass}></li>
+    {data.map((item) => (
+      <li key={item._id} className={liClass}>{renderItem(item)}</li>
+
+    ))}
    </ul>
  );
  

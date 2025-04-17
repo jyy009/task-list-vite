@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useTask } from "../context/TaskContext";
 import { Header2 } from "../atoms/Header2";
+import { List } from "../atoms/List";
+import { Button } from "../atoms/Button";
 
 export const ProjectList = () => {
   const {
@@ -11,7 +13,7 @@ export const ProjectList = () => {
     deleteTask,
     toggleTask,
     setTasklist,
-    formatDate
+    formatDate,
   } = useTask();
   const [selectedProject, setSelectedProject] = useState(null);
 
@@ -71,33 +73,61 @@ export const ProjectList = () => {
     <>
       <section className="bg-slate-50 rounded-lg shadow p-6 max-w-md mx-auto my-8">
         <Header2 text="Filter tasks by project" />
-        <ul>
-          {projectList.map((proj) => (
-            <li key={proj._id}>
-              <button onClick={handleButtonClick}>{proj.name}</button>
-              <button onClick={() => deleteProject(proj._id)}>Delete</button>
-            </li>
-          ))}
-        </ul>
 
-        <ul>
-          {filteredTasks.map((item) => (
-            <li className="filteredTaskContainer" key={item._id}>
-              <input
-                id={`completed- ${item._id}`}
-                className="completed-input"
-                type="checkbox"
-                checked={item.completed}
-                onChange={() => toggleTask(item._id)}
-              />
-              <label htmlFor={`completed- ${item._id}`}>{item.title}</label>
-              <p>{item.description}</p>
-              <p>{formatDate(item.due)}</p>
-              <p>{item.priority ? "!" : ""}</p>
-              <button onClick={() => deleteTask(item._id)}>Delete</button>
-            </li>
-          ))}
-        </ul>
+        <List
+          data={projectList}
+          ulClass="mb-6 flex flex-wrap gap-2 justify-center"
+          liClass="flex items-center gap-2 "
+          renderItem={(proj) => (
+            <>
+              <Button onClick={handleButtonClick} text={proj.name} />
+              <Button onClick={() => deleteProject(proj._id)} text="Delete" />
+            </>
+          )}
+        />
+
+        <List
+          data={filteredTasks}
+          ulClass="space-y-4"
+          liClass="filteredTaskContainer bg-white border border-slate-200 rounded-lg p-4 flex flex-col md:flex-row md:items-center md:justify-between shadow-sm"
+          renderItem={(item) => (
+            <>
+              <div className="flex items-center gap-3">
+                <input
+                  id={`completed- ${item._id}`}
+                  className="completed-input"
+                  type="checkbox"
+                  checked={item.completed}
+                  onChange={() => toggleTask(item._id)}
+                />
+                <label htmlFor={`completed- ${item._id}`}>{item.title}</label>
+              </div>
+              <div className="ml-8 flex-1">
+                <p>{item.description}</p>
+                <p>{formatDate(item.due)}</p>
+              </div>
+
+              <div>
+                {item.priority && (
+                  <span
+                    className="text-lg text-sky-700 font-bold"
+                    title="High Priority"
+                  >
+                    !
+                  </span>
+                )}
+              </div>
+
+              <button
+                className="bg-slate-200 hover:bg-sky-700 hover:text-slate-50 text-sky-900 font-semibold py-1 px-3 rounded shadow focus:outline-none focus:ring-2 focus:ring-sky-700 transition-colors duration-150"
+                onClick={() => deleteTask(item._id)}
+                aria-label={`Delete task ${item.title}`}
+              >
+                Delete
+              </button>
+            </>
+          )}
+        />
       </section>
     </>
   );
