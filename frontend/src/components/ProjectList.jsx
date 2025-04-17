@@ -73,34 +73,43 @@ export const ProjectList = () => {
     <>
       <section className="bg-slate-50 rounded-lg shadow p-6 max-w-md mx-auto my-8">
         <Header2 text="Filter tasks by project" />
-
         <List
           data={projectList}
-          ulClass="mb-6 flex flex-wrap gap-2 justify-center"
+          ulClass="mb-6 flex flex-wrap gap-4 justify-center"
           liClass="flex items-center gap-2 "
           renderItem={(proj) => (
-            <>
+            <div className="flex flex-row gap-x-2">
               <Button onClick={handleButtonClick} text={proj.name} />
-              <Button onClick={() => deleteProject(proj._id)} text="Delete" />
-            </>
+              <Button
+                onClick={() => deleteProject(proj._id)}
+                text="Delete"
+                section="font-light"
+              />
+            </div>
           )}
         />
 
         <List
           data={filteredTasks}
           ulClass="space-y-4"
-          liClass="filteredTaskContainer bg-white border border-slate-200 rounded-lg p-4 flex flex-col md:flex-row md:items-center md:justify-between shadow-sm"
+          liClass="bg-white border border-slate-300 rounded-lg p-4 flex flex-row items-center md:flex-row md:items-center md:justify-between shadow-sm"
           renderItem={(item) => (
             <>
-              <div className="flex items-center gap-3">
+              <div key={item._id} className="flex items-center gap-3">
                 <input
                   id={`completed- ${item._id}`}
-                  className="completed-input"
                   type="checkbox"
                   checked={item.completed}
                   onChange={() => toggleTask(item._id)}
                 />
-                <label htmlFor={`completed- ${item._id}`}>{item.title}</label>
+                <label
+                  htmlFor={`completed- ${item._id}`}
+                  className={`${
+                    item.completed ? "line-through decoration-2 opacity-60" : ""
+                  }`}
+                >
+                  {item.title}
+                </label>
               </div>
               <div className="ml-8 flex-1">
                 <p>{item.description}</p>
@@ -118,13 +127,12 @@ export const ProjectList = () => {
                 )}
               </div>
 
-              <button
-                className="bg-slate-200 hover:bg-sky-700 hover:text-slate-50 text-sky-900 font-semibold py-1 px-3 rounded shadow focus:outline-none focus:ring-2 focus:ring-sky-700 transition-colors duration-150"
+              <Button
+                type="submit"
                 onClick={() => deleteTask(item._id)}
                 aria-label={`Delete task ${item.title}`}
-              >
-                Delete
-              </button>
+                text="Delete"
+              />
             </>
           )}
         />

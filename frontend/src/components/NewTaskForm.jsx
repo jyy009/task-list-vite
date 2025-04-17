@@ -55,93 +55,108 @@ export const NewTaskForm = () => {
   };
 
   return (
-    <section className="bg-slate-50 rounded-lg shadow p-6 max-w-md mx-auto my-8">
+    <section className="bg-slate-50 rounded-lg shadow p-6 max-w-md mx-auto my-8 flex flex-col">
       <Header2 text="Create new Task" id="task-form-heading" />
       <form id="task-form" onSubmit={handleSubmit}>
         <fieldset aria-labelledby="task-form-heading">
-          <label className="block text-slate-700 font-medium" htmlFor="task">
-            Title
-          </label>
-          <input
-            id="task"
-            className="block w-full px-3 py-2 border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-sky-700 bg-slate-50 text-slate-800 placeholder-slate-400"
-            type="text"
-            name="title"
-            onChange={handleInputChange}
-            value={formData.title}
-            required
-            placeholder="Task title..."
-          />
-          <label
-            className="block text-slate-700 font-medium"
-            htmlFor="description"
-          >
-            Notes
-          </label>
-          <input
-            id="description"
-            className="block w-full px-3 py-2 border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-sky-700 bg-slate-50 text-slate-800 placeholder-slate-400"
-            type="text"
-            name="description"
-            onChange={handleInputChange}
-            placeholder="Task notes..."
-            value={formData.description}
-          />
-          <label
-            className="block text-slate-700 font-medium"
-            htmlFor="due-date"
-          >
-            Due
-          </label>
-          <input
-            id="due-date"
-            className="block w-full px-3 py-2 border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-sky-700 bg-slate-50 text-slate-800 placeholder-slate-400"
-            type="date"
-            name="due"
-            onChange={handleInputChange}
-            value={formData.due}
-          />
-          <label
-            className="block text-slate-700 font-medium"
-            htmlFor="priority"
-          >
-            Priority
-          </label>
-          <input
-            id="priority"
-            className="block w-full px-3 py-2 border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-sky-700 bg-slate-50 text-slate-800 placeholder-slate-400"
-            type="checkbox"
-            name="priority"
-            checked={formData.priority}
-            onChange={handleInputChange}
-          />
-          <label
-            className="block text-slate-700 font-medium"
-            htmlFor="project-select"
-          >
-            Project
-          </label>
-          <select
-            name="project"
-            id="project-select"
-            onChange={handleInputChange}
-            value={formData.project}
-            className="block w-full px-3 py-2 border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-sky-700 bg-slate-50 text-slate-800 placeholder-slate-400"
-          >
-            <option value="" disabled>
-              Select a project
-            </option>
-            <option value="test project">Test project</option>
-            {projectList.map((proj) => {
-              return (
-                <option key={proj._id} value={proj.name}>
-                  {proj.name}
+          <div className="flex flex-col gap-3">
+            <div>
+              <label
+                className="block text-slate-700 font-medium"
+                htmlFor="task"
+              >
+                Title
+              </label>
+              <input
+                id="task"
+                className="block w-full px-3 py-2 border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-sky-700 bg-slate-50 text-slate-800 placeholder-slate-400"
+                type="text"
+                name="title"
+                onChange={handleInputChange}
+                value={formData.title}
+                required
+                placeholder="Task title..."
+              />
+            </div>
+            <div>
+              <label
+                className="block text-slate-700 font-medium"
+                htmlFor="description"
+              >
+                Notes
+              </label>
+              <input
+                id="description"
+                className="block w-full px-3 py-2 border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-sky-700 bg-slate-50 text-slate-800 placeholder-slate-400"
+                type="text"
+                name="description"
+                onChange={handleInputChange}
+                placeholder="Task notes..."
+                value={formData.description}
+              />
+            </div>
+            <div>
+              <label
+                className="block text-slate-700 font-medium"
+                htmlFor="due-date"
+              >
+                Due
+              </label>
+              <input
+                id="due-date"
+                className="block w-full px-3 py-2 border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-sky-700 bg-slate-50 text-slate-800 placeholder-slate-400"
+                type="date"
+                name="due"
+                onChange={handleInputChange}
+                value={formData.due}
+              />
+            </div>
+            <div className="">
+              <label
+                className="text-slate-700 font-medium"
+                htmlFor="priority"
+              >
+                Priority
+              </label>
+              <input
+                id="priority"
+                className="block px-3 py-2 border border-slate-300 rounded focus:outline-none outline:none focus:ring-0 focus:ring-sky-700 bg-slate-50 text-slate-800 placeholder-slate-400"
+                type="checkbox"
+                name="priority"
+                checked={formData.priority}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div>
+              <label
+                className="block text-slate-700 font-medium"
+                htmlFor="project-select"
+              >
+                Project
+              </label>
+              <select
+                name="project"
+                id="project-select"
+                onChange={handleInputChange}
+                value={formData.project}
+                className="block w-full px-3 py-2 border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-sky-700 bg-slate-50 text-slate-800 placeholder-slate-600"
+              >
+                <option value="" disabled>
+                  Select a project
                 </option>
-              );
-            })}
-          </select>
+                <option value="test project">Test project</option>
+                {projectList.map((proj) => {
+                  return (
+                    <option key={proj._id} value={proj.name}>
+                      {proj.name}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
 
-          <Button type="submit" text="Add Task" />
+            <Button type="submit" text="Add Task" />
+          </div>
           {taskFormSubmitted && <p>{taskFormSubmitted}</p>}
         </fieldset>
       </form>

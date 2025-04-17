@@ -7,8 +7,8 @@ export default {
   
 
       fontFamily: {
-        urbanist: ["Urbanist", "sans-serif"], //Header1
-        poppins: ["Poppins", "sans-serif"], //Header2, body
+        urbanist: ["Urbanist", "sans-serif"], //header
+        poppins: ["Poppins", "sans-serif"], //body
       },
     },
   },

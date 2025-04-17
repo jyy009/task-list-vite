@@ -40,7 +40,7 @@ export const NewProjectForm = () => {
       console.log("project data", data);
 
       if (!response.ok) {
-        throw new Error(data.message || "Failed to add project");
+        throw new Error(data.message || "Project already exists");
       }
 
       console.log("response from server:", data);
@@ -63,26 +63,29 @@ export const NewProjectForm = () => {
       <section className="bg-slate-50 rounded-lg shadow p-6 max-w-md mx-auto my-8">
         <Header2 text="Add a project" />
         <form id="project-form" onSubmit={handleSubmit}>
-          <label
-            className="block text-slate-700 font-medium"
-            htmlFor="project-input"
-          >
-            Project name{" "}
-          </label>
-          <input
-            id="project-input"
-            className="block w-full px-3 py-2 border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-sky-700 bg-slate-50 text-slate-800 placeholder-slate-400"
-            type="text"
-            name="name"
-            onChange={handleInputChange}
-            value={projectData.name}
-            required
-          />
-          <Button type="submit" text="Add Project" />
+          <div className="flex flex-col gap-3">
+            <label
+              className="block text-slate-700 font-medium"
+              htmlFor="project-input"
+            >
+              Project name{" "}
+            </label>
+            <input
+              id="project-input"
+              className="block w-full px-3 py-2 border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-sky-700 bg-slate-50 text-slate-800 placeholder-slate-400"
+              type="text"
+              name="name"
+              onChange={handleInputChange}
+              value={projectData.name}
+              onFocus={() => setFormError("")}
+              required
+            />
+            <Button type="submit" text="Add Project" />
+          </div>
         </form>
 
         {formError && (
-          <p className="mt-4 text-sky-900 bg-sky-100 rounded px-3 py-2 text-center">
+          <p className="mt-4 text-orange-700  rounded px-3 py-2 text-center">
             {formError}
           </p>
         )}

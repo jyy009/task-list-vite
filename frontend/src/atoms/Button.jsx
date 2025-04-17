@@ -1,9 +1,14 @@
-export const Button = ({ type, text, onClick }) => {
+export const Button = ({ type, text, onClick, section, ariaLabel }) => {
   return (
     <button
       onClick={onClick}
       type={type}
-      className="w-full bg-sky-700 hover:bg-sky-800 text-slate-50 font-semibold py-2 px-4 rounded shadow transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-sky-700 mt-2"
+      className={`${
+        section
+          ? section
+          : "bg-slate-200 hover:bg-sky-700 hover:text-slate-50 text-sky-900 font-semibold py-1 px-3 rounded shadow focus:outline-none focus:ring-2 focus:ring-sky-700 transition-colors duration-150"
+      }`}
+      aria-label={ariaLabel}
     >
       {text}
     </button>

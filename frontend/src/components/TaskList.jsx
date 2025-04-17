@@ -19,24 +19,29 @@ export const TaskList = () => {
       <section className="bg-slate-50 rounded-lg shadow p-6 max-w-md mx-auto my-8">
         <Header2 text="All Tasks" />
         {tasklist.length === 0 && !loading && (
-          <p className="text-slate-500 text-center my-6">You have no tasks</p>
+          <p className="text-slate-700 text-center my-6">You have no tasks</p>
         )}
         <List
           data={tasklist}
-          ulClass="mb-6 flex flex-wrap gap-2 justify-center"
-          liClass="flex items-center gap-2 "
-          key={task._id}
+          ulClass="space-y-4"
+          liClass="bg-white border border-slate-300 rounded-lg p-4 flex flex-row items-center md:flex-row md:items-center md:justify-between shadow-sm"
           renderItem={(task) => (
-            <div className="taskContainer bg-white border border-slate-200 rounded-lg p-4 flex flex-row shadow-sm">
-              <div className="flex items-center gap-3">
+            <>
+              <div key={task._id} className="flex items-center gap-3">
                 <input
                   id={`completed-${task._id}`}
-                  className="completed-input"
                   type="checkbox"
                   checked={task.completed}
                   onChange={() => toggleTask(task._id)}
                 />
-                <label htmlFor={`completed-${task._id}`}>{task.title}</label>
+                <label
+                  htmlFor={`completed-${task._id}`}
+                  className={`${
+                    task.completed ? "line-through decoration-2 opacity-60" : ""
+                  }`}
+                >
+                  {task.title}
+                </label>
               </div>
               <div className="ml-8 flex-1">
                 <p>{task.description}</p>
@@ -56,29 +61,12 @@ export const TaskList = () => {
               <Button
                 type="submit"
                 onClick={() => deleteTask(task._id)}
+                aria-label={`Delete task ${task.title}`}
                 text="Delete"
               />
-            </div>
+            </>
           )}
         />
-        {/* <ul>
-          {tasklist.map((task) => (
-            <li className="taskContainer" key={task._id}>
-              <input
-                id={`completed-${task._id}`}
-                className="completed-input"
-                type="checkbox"
-                checked={task.completed}
-                onChange={() => toggleTask(task._id)}
-              />
-              <label htmlFor={`completed-${task._id}`}>{task.title}</label>
-              <p>{task.description}</p>
-              <p>{formatDate(task.due)}</p>
-              <p>{task.priority ? "!" : ""}</p>
-              <button onClick={() => deleteTask(task._id)}>Delete</button>
-            </li>
-          ))}
-        </ul> */}
       </section>
     </>
   );

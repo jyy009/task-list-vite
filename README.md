@@ -4,6 +4,8 @@
 
 A task tracker app where users can organize their task list. Built with React + Vite, node.js and MongoDB. Custom built backend using RESTful API that supports adding, getting and deleting todo entries.
 
+User can add a project category for which the tasks can be organized into. User can create a new task, view all tasks, view tasks by category, and delete tasks.
+
 ## How to run
 
 - Clone the repository
