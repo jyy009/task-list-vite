@@ -13,6 +13,7 @@ User can add a project category for which the tasks can be organized into. User 
   `npm install`
 - Then start the server:
   `npm run dev`
+- Connection string to remote database is provided via submission form. I have allowed 'any connection' in Atlas.
 
 ## Features
 
