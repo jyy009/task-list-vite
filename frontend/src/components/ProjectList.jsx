@@ -79,7 +79,15 @@ export const ProjectList = () => {
           liClass="flex items-center gap-2 "
           renderItem={(proj) => (
             <div className="flex flex-row gap-x-2">
-              <Button onClick={handleButtonClick} text={proj.name} />
+              <Button
+                onClick={handleButtonClick}
+                text={proj.name}
+                section={`font-semibold py-1 px-3 rounded shadow focus:outline-none focus:ring-2 focus:ring-sky-700 transition-colors duration-150 ${
+                  selectedProject === proj.name
+                    ? "bg-sky-700 text-slate-50 ring-2 ring-sky-700 "
+                    : "bg-slate-200 hover:bg-sky-700 hover:text-slate-50 text-sky-900"
+                }`}
+              />
               <Button
                 onClick={() => deleteProject(proj._id)}
                 text="Delete"
@@ -92,53 +100,59 @@ export const ProjectList = () => {
           )}
         />
 
-        <List
-          data={filteredTasks}
-          ulClass="space-y-4"
-          liClass="bg-white border border-slate-300 rounded-lg p-4 flex flex-row items-center md:flex-row md:items-center md:justify-between shadow-sm"
-          renderItem={(item) => (
-            <>
-              <div key={item._id} className="flex items-center gap-3">
-                <input
-                  id={`completed- ${item._id}`}
-                  type="checkbox"
-                  checked={item.completed}
-                  onChange={() => toggleTask(item._id)}
-                />
-                <label
-                  htmlFor={`completed- ${item._id}`}
-                  className={`${
-                    item.completed ? "line-through decoration-2 opacity-60" : ""
-                  }`}
-                >
-                  {item.title}
-                </label>
-              </div>
-              <div className="ml-8 flex-1">
-                <p>{item.description}</p>
-                <p>{formatDate(item.due)}</p>
-              </div>
-
-              <div>
-                {item.priority && (
-                  <span
-                    className="text-lg text-sky-700 font-bold"
-                    title="High Priority"
+        {filteredTasks.length > 0 ? (
+          <List
+            data={filteredTasks}
+            ulClass="space-y-4"
+            liClass="bg-white border border-slate-300 rounded-lg p-4 flex flex-row items-center md:flex-row md:items-center md:justify-between shadow-sm"
+            renderItem={(item) => (
+              <>
+                <div key={item._id} className="flex items-center gap-3">
+                  <input
+                    id={`completed- ${item._id}`}
+                    type="checkbox"
+                    checked={item.completed}
+                    onChange={() => toggleTask(item._id)}
+                  />
+                  <label
+                    htmlFor={`completed- ${item._id}`}
+                    className={`${
+                      item.completed
+                        ? "line-through decoration-2 opacity-60"
+                        : ""
+                    }`}
                   >
-                    !
-                  </span>
-                )}
-              </div>
+                    {item.title}
+                  </label>
+                </div>
+                <div className="ml-8 flex-1">
+                  <p>{item.description}</p>
+                  <p>{formatDate(item.due)}</p>
+                </div>
 
-              <Button
-                type="submit"
-                onClick={() => deleteTask(item._id)}
-                aria-label={`Delete task ${item.title}`}
-                text="Delete"
-              />
-            </>
-          )}
-        />
+                <div>
+                  {item.priority && (
+                    <span
+                      className="text-lg text-sky-700 font-bold"
+                      title="High Priority"
+                    >
+                      !
+                    </span>
+                  )}
+                </div>
+
+                <Button
+                  type="submit"
+                  onClick={() => deleteTask(item._id)}
+                  aria-label={`Delete task ${item.title}`}
+                  text="Delete"
+                />
+              </>
+            )}
+          />
+        ) : (
+          "No tasks in the project"
+        )}
       </section>
     </>
   );
