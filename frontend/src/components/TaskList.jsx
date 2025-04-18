@@ -54,7 +54,7 @@ export const TaskList = () => {
               <div>
                 {task.priority && (
                   <span
-                    className="text-lg text-sky-700 font-bold"
+                    className="text-lg text-sky-700 font-bold px-2"
                     title="High Priority"
                   >
                     !

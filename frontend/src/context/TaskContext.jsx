@@ -8,7 +8,6 @@ export const TaskProvider = ({ children }) => {
 
   const formatDate = (date) => {
     const d = new Date(date);
-    console.log("date", date);
     return d.toISOString().split("T")[0];
   };
 
