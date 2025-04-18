@@ -25,7 +25,7 @@ export const TaskProvider = ({ children }) => {
   const [projectData, setProjectData] = useState({
     name: "",
   });
-  const [formError, setFormError] = useState("")
+  const [formError, setFormError] = useState("");
 
   const backend_url =
     import.meta.env.VITE_BACKEND_URL || "http://localhost:8080";
@@ -42,7 +42,6 @@ export const TaskProvider = ({ children }) => {
   };
 
   const fetchTasks = async () => {
-
     try {
       const response = await fetch(`${backend_url}/tasks`, {
         method: "GET",
@@ -157,7 +156,6 @@ export const TaskProvider = ({ children }) => {
         clearProjectForm,
         formError,
         setFormError,
-      
       }}
     >
       {children}

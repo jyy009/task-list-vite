@@ -10,11 +10,9 @@ import { validationResult } from "express-validator";
 router.get("/", async (req, res) => {
   try {
     const allProjects = await Project.find().exec();
-    if (allProjects.length > 0) {
+  
       res.status(200).json(allProjects);
-    } else {
-      res.status();
-    }
+  
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -27,6 +25,7 @@ router.get("/", async (req, res) => {
 router.post("/", createProjectFormValidation(), async (req, res) => {
   const errors = validationResult(req);
   console.log("errors array", errors)
+
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
@@ -38,7 +37,7 @@ router.post("/", createProjectFormValidation(), async (req, res) => {
     const existingProject = await Project.findOne({ name });
 
     if (existingProject) {
-      return res.status(400).json("project already exists");
+      return res.status(409).json("project already exists");
     }
 
     const newProject = new Project({ name });
@@ -77,11 +76,11 @@ router.delete("/:projectId", async (req, res) => {
     console.log("Deleted project:", deletedProject);
 
     if (!deletedProject) {
-      return res.status(400).json({
+      return res.status(404).json({
         success: false,
         message: "Could not find project",
       });
-    }
+    } 
 
     await Task.deleteMany({ project: deletedProject.name });
 
