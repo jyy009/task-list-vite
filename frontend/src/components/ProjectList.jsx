@@ -14,21 +14,19 @@ export const ProjectList = () => {
     toggleTask,
     setTasklist,
     formatDate,
+    projectsLoading,
+    backend_url,
   } = useTask();
+
   const [selectedProject, setSelectedProject] = useState(null);
 
   useEffect(() => {
     fetchProjects();
   }, []);
 
-  const backend_url =
-    import.meta.env.VITE_BACKEND_URL || "http://localhost:8080";
-
   const handleButtonClick = (e) => {
     e.preventDefault();
     const value = e.target.textContent;
-    console.log("current task list:", tasklist);
-
     setSelectedProject(value);
   };
 
@@ -36,7 +34,9 @@ export const ProjectList = () => {
     (item) => item.project === selectedProject
   );
 
-  const deleteProject = async (projId) => {
+  const deleteProject = async (projId, projName) => {
+    setSelectedProject(projName);
+
     try {
       const response = await fetch(`${backend_url}/projects/${projId}`, {
         method: "DELETE",
@@ -49,30 +49,24 @@ export const ProjectList = () => {
         throw new Error("Failed to delete project");
       }
 
-      const data = await response.json();
-      console.log("project data:", data);
-
       setProjectList((prev) => prev.filter((item) => item._id !== projId));
-      setTasklist((prev) =>
-        prev.filter((task) => task.project !== selectedProject)
-      );
+      setTasklist((prev) => prev.filter((task) => task.project !== projName));
     } catch (error) {
       console.error("Error deleting project", error);
     }
   };
 
-  useEffect(() => {
-    console.log("current project list:", projectList);
-  }, [projectList]);
-
-  useEffect(() => {
-    console.log("current tasklist:", tasklist);
-  }, [tasklist]);
-
   return (
     <>
+      {projectsLoading && (
+        <p className="text-sky-700 font-[urbanist] text-center my-6">
+          Loading...
+        </p>
+      )}
+
       <section className="bg-slate-50 font-[urbanist] rounded-lg shadow p-6 max-w-md mx-auto my-8">
         <Header2 text="Filter tasks by project" />
+
         <List
           data={projectList}
           ulClass="mb-6 flex flex-wrap gap-4 justify-center"
@@ -89,7 +83,7 @@ export const ProjectList = () => {
                 }`}
               />
               <Button
-                onClick={() => deleteProject(proj._id)}
+                onClick={() => deleteProject(proj._id, proj.name)}
                 text="Delete"
                 section="font-light transition-all duration-150
     focus:outline-none focus:ring-2 focus:ring-sky-700

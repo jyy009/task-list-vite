@@ -5,17 +5,14 @@ import { Button } from "../atoms/Button";
 
 export const NewProjectForm = () => {
   const {
-    projectList,
     projectData,
     setProjectData,
     addProjectToList,
     clearProjectForm,
     setFormError,
     formError,
+    backend_url,
   } = useTask();
-
-  const backend_url =
-    import.meta.env.VITE_BACKEND_URL || "http://localhost:8080";
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -38,14 +35,11 @@ export const NewProjectForm = () => {
       });
 
       const data = await response.json();
-      console.log("project data", data);
 
       if (!response.ok) {
         throw new Error(data.message || "Project already exists");
       }
 
-      console.log("response from server:", data);
-      console.log("Before adding project:", projectList);
       addProjectToList(data);
       clearProjectForm();
       setFormError("");
@@ -54,10 +48,6 @@ export const NewProjectForm = () => {
       setFormError(error.message);
     }
   };
-
-  useEffect(() => {
-    console.log("current project data:", projectData);
-  }, [projectData]);
 
   return (
     <>
@@ -69,7 +59,7 @@ export const NewProjectForm = () => {
               className="block text-slate-700 font-medium"
               htmlFor="project-input"
             >
-              Project name{" "}
+              Project name
             </label>
             <input
               id="project-input"

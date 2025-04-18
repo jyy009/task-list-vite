@@ -4,6 +4,7 @@ const TaskContext = createContext();
 
 export const TaskProvider = ({ children }) => {
   const [tasklist, setTasklist] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const formatDate = (date) => {
     const d = new Date(date);
@@ -18,14 +19,13 @@ export const TaskProvider = ({ children }) => {
     priority: false,
     project: "",
   });
-  const [loading, setLoading] = useState(true);
-  const [projectsLoading, setProjectsLoading] = useState(true);
 
+  const [projectsLoading, setProjectsLoading] = useState(true);
   const [projectList, setProjectList] = useState([]);
+  const [formError, setFormError] = useState("");
   const [projectData, setProjectData] = useState({
     name: "",
   });
-  const [formError, setFormError] = useState("");
 
   const backend_url =
     import.meta.env.VITE_BACKEND_URL || "http://localhost:8080";
@@ -49,10 +49,11 @@ export const TaskProvider = ({ children }) => {
           "Content-Type": "application/json",
         },
       });
-      console.log("Response status:", response.status);
+
       if (!response.ok) {
         throw new Error("Failed to fetch tasks");
       }
+
       const data = await response.json();
       setTasklist(data);
     } catch (error) {
@@ -97,8 +98,6 @@ export const TaskProvider = ({ children }) => {
         throw new Error("Failed to delete task");
       }
 
-      const data = await response.json();
-      console.log("task deleted successfully:", data);
       setTasklist((prev) => prev.filter((task) => task._id !== taskId));
     } catch (error) {
       console.error("Error deleting task:", error);
@@ -112,10 +111,6 @@ export const TaskProvider = ({ children }) => {
       );
     });
   };
-
-  useEffect(() => {
-    console.log("current tasklist:", tasklist);
-  }, [tasklist]);
 
   const clearTaskForm = () => {
     setFormData({
@@ -136,23 +131,25 @@ export const TaskProvider = ({ children }) => {
   return (
     <TaskContext.Provider
       value={{
-        formData,
-        setFormData,
         tasklist,
-        setTasklist,
-        addTask,
-        clearTaskForm,
-        projectList,
-        addProjectToList,
-        fetchTasks,
         toggleTask,
+        fetchTasks,
         loading,
-        projectData,
-        setProjectData,
-        fetchProjects,
-        setProjectList,
         deleteTask,
         formatDate,
+        projectList,
+        fetchProjects,
+        setProjectList,
+        setTasklist,
+        projectsLoading,
+        backend_url,
+        formData,
+        setFormData,
+        addTask,
+        clearTaskForm,
+        projectData,
+        setProjectData,
+        addProjectToList,
         clearProjectForm,
         formError,
         setFormError,

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useTask } from "../context/TaskContext";
 import { Header2 } from "../atoms/Header2";
 import { List } from "../atoms/List";
@@ -35,7 +35,7 @@ export const TaskList = () => {
                 <input
                   id={`completed-${task._id}`}
                   type="checkbox"
-                  checked={task.completed}
+                  checked={!!task.completed}
                   onChange={() => toggleTask(task._id)}
                 />
                 <label

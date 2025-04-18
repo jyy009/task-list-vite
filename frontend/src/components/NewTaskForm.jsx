@@ -4,10 +4,7 @@ import { Header2 } from "../atoms/Header2";
 import { Button } from "../atoms/Button";
 
 export const NewTaskForm = () => {
-  const backend_url =
-    import.meta.env.VITE_BACKEND_URL || "http://localhost:8080";
-
-  const { formData, setFormData, projectList, addTask, clearTaskForm } =
+  const { formData, setFormData, projectList, addTask, clearTaskForm, backend_url} =
     useTask();
 
   const [taskFormSubmitted, setTaskFormSubmitted] = useState(null);
@@ -43,13 +40,11 @@ export const NewTaskForm = () => {
       }
 
       const data = await response.json();
-      console.log("response from server:", data);
       addTask(data);
       clearTaskForm();
       setTaskFormSubmitted("Task has been added");
     } catch (error) {
       console.error("Error adding task:", error);
-      console.log("form data after submit:", formData);
       setTaskFormSubmitted("Failed to add task", error.message);
     }
   };
@@ -75,6 +70,7 @@ export const NewTaskForm = () => {
                 onChange={handleInputChange}
                 value={formData.title}
                 required
+                onFocus={() => setTaskFormSubmitted("")}
                 placeholder="Task title..."
               />
             </div>
@@ -93,6 +89,7 @@ export const NewTaskForm = () => {
                 onChange={handleInputChange}
                 placeholder="Task notes..."
                 value={formData.description}
+                onFocus={() => setTaskFormSubmitted("")}
               />
             </div>
             <div>
@@ -109,6 +106,7 @@ export const NewTaskForm = () => {
                 name="due"
                 onChange={handleInputChange}
                 value={formData.due}
+                onFocus={() => setTaskFormSubmitted("")}
               />
             </div>
             <div className="">
@@ -122,6 +120,7 @@ export const NewTaskForm = () => {
                 name="priority"
                 checked={formData.priority}
                 onChange={handleInputChange}
+                onFocus={() => setTaskFormSubmitted("")}
               />
             </div>
             <div>
@@ -137,6 +136,7 @@ export const NewTaskForm = () => {
                 onChange={handleInputChange}
                 value={formData.project}
                 className="block w-full px-3 py-2 border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-sky-700 bg-slate-50 text-slate-800 placeholder-slate-600"
+                onFocus={() => setTaskFormSubmitted("")}
               >
                 <option value="" disabled>
                   Select a project
