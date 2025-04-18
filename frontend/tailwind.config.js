@@ -4,11 +4,9 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
-  
-
       fontFamily: {
-        urbanist: ["Urbanist", "sans-serif"], //header
-        poppins: ["Poppins", "sans-serif"], //body
+        poppins: ["Poppins", "sans-serif"], //header
+        urbanist: ["Urbanist", "sans-serif"], //body
       },
     },
   },

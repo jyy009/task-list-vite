@@ -71,7 +71,7 @@ export const ProjectList = () => {
 
   return (
     <>
-      <section className="bg-slate-50 rounded-lg shadow p-6 max-w-md mx-auto my-8">
+      <section className="bg-slate-50 font-[urbanist] rounded-lg shadow p-6 max-w-md mx-auto my-8">
         <Header2 text="Filter tasks by project" />
         <List
           data={projectList}

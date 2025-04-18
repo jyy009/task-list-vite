@@ -14,9 +14,13 @@ export const TaskList = () => {
 
   return (
     <>
-      {loading && <p className="text-sky-700 text-center my-6">loading...</p>}
+      {loading && (
+        <p className="text-sky-700 font-[urbanist] text-center my-6">
+          loading...
+        </p>
+      )}
 
-      <section className="bg-slate-50 rounded-lg shadow p-6 max-w-md mx-auto my-8">
+      <section className="bg-slate-50 font-[urbanist] rounded-lg shadow p-6 max-w-md mx-auto my-8">
         <Header2 text="All Tasks" />
         {tasklist.length === 0 && !loading && (
           <p className="text-slate-700 text-center my-6">You have no tasks</p>

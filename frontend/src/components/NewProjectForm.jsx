@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { useTask } from "../context/TaskContext";
-import {Header2}  from "../atoms/Header2";
+import { Header2 } from "../atoms/Header2";
 import { Button } from "../atoms/Button";
+
 export const NewProjectForm = () => {
   const {
     projectList,
@@ -60,7 +61,7 @@ export const NewProjectForm = () => {
 
   return (
     <>
-      <section className="bg-slate-50 rounded-lg shadow p-6 max-w-md mx-auto my-8">
+      <section className="bg-slate-50 font-[urbanist] rounded-lg shadow p-6 max-w-md mx-auto my-8">
         <Header2 text="Add a project" />
         <form id="project-form" onSubmit={handleSubmit}>
           <div className="flex flex-col gap-3">
@@ -79,13 +80,14 @@ export const NewProjectForm = () => {
               value={projectData.name}
               onFocus={() => setFormError("")}
               required
+              placeholder="Add a new project..."
             />
             <Button type="submit" text="Add Project" />
           </div>
         </form>
 
         {formError && (
-          <p className="mt-4 text-orange-700 rounded px-3 py-2 text-center">
+          <p className=" font-[urbanist] mt-4 text-orange-700 rounded px-3 py-2 text-center">
             {formError}
           </p>
         )}

@@ -55,7 +55,7 @@ export const NewTaskForm = () => {
   };
 
   return (
-    <section className="bg-slate-50 rounded-lg shadow p-6 max-w-md mx-auto my-8 flex flex-col">
+    <section className="bg-slate-50 font-[urbanist] rounded-lg shadow p-6 max-w-md mx-auto my-8 flex flex-col">
       <Header2 text="Create new Task" id="task-form-heading" />
       <form id="task-form" onSubmit={handleSubmit}>
         <fieldset aria-labelledby="task-form-heading">
@@ -112,10 +112,7 @@ export const NewTaskForm = () => {
               />
             </div>
             <div className="">
-              <label
-                className="text-slate-700 font-medium"
-                htmlFor="priority"
-              >
+              <label className="text-slate-700 font-medium" htmlFor="priority">
                 Priority
               </label>
               <input
