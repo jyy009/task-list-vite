@@ -59,7 +59,7 @@ For SEO:
 
 For accessibility:
 
-- Descriptive `aria-label` and `aria-labelledby` are used to ensure assistive technology can better understand and associate the purpose of elements.
+- Added descriptive `aria-label` and `aria-labelledby` are used to ensure assistive technology can better understand and associate the purpose of elements.
 - Added unique input fields by adding `_id` for input and label elements to properly associate them to the relevant task or project.
-- Implmented form messages to the UI when the task or project has/has not been successfully added for screen readers.
-- Analyzed page on lighthouse for a score of '100' on accessibility and a high score on performance.
+- Implemented form messages to the UI when the task or project has/has not been successfully added for screen readers.
+- Analyzed page on lighthouse for a score of '100' on accessibility and a high score on the other categories.
